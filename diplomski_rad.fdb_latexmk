@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex diplomski_rad"] 1719262527.2735 "diplomski_rad.aux" "diplomski_rad.bbl" "diplomski_rad" 1719266229.87243 0
-  "./Chapters/03_mainboard.aux" 1719266228 6920 1846df85e6ff326cf937e8a3cd6d2bc4 ""
+["bibtex diplomski_rad"] 1719344123.15033 "diplomski_rad.aux" "diplomski_rad.bbl" "diplomski_rad" 1719344156.48481 0
+  "./Chapters/03_mainboard.aux" 1719344155 8438 1b3c84705c15ed3d3c6f294710878c7a ""
   "./fer_IEEEtran_HR.bst" 1623666897 60896 90d69aefaad7b24856119a58e789af2e ""
-  "./literatura.bib" 1719238394 1571 e2f15f5a6db6f4ff05f20061dc9508c4 ""
-  "diplomski_rad.aux" 1719266228 2088 bf8513199362dc1c5124a4f6e73999b0 "pdflatex"
+  "./literatura.bib" 1719343575 2032 eafc0850815871b968d88175cb6ebd91 ""
+  "diplomski_rad.aux" 1719344155 2136 a0056110e6c22414c6a586da1fed6359 "pdflatex"
   (generated)
   "diplomski_rad.bbl"
   "diplomski_rad.blg"
   (rewritten before read)
-["pdflatex"] 1719266225.75133 "c:/Users/Nikola/Documents/Faks/Diplomski/diplomski-rad/latex-source/diplomski_rad.tex" "diplomski_rad.pdf" "diplomski_rad" 1719266229.87346 0
+["pdflatex"] 1719344152.50456 "c:/Users/Nikola/Documents/Faks/Diplomski/diplomski-rad/latex-source/diplomski_rad.tex" "diplomski_rad.pdf" "diplomski_rad" 1719344156.48659 0
   "C:/Users/Nikola/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1715614059 145918 98c1175bfca4bd782b0fadacab9aef45 ""
   "C:/Users/Nikola/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1709146587 24232400 030f586683b20c1ca4f9724cfd01f721 ""
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/opensans/a_jg4h6q.enc" 1561406082 2952 84fda6c8ae8be17712e9d998ffe48bad ""
@@ -42,6 +42,7 @@
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/fonts/tfm/public/stix2-type1/t1-stix2text-bold.tfm" 1522426161 28532 15c9fc954b1440700b35aab90bfb9230 ""
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/fonts/tfm/public/stix2-type1/t1-stix2text-italic.tfm" 1522426161 30900 0903f6d37c44d064d62d9c928b7560fc ""
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/fonts/tfm/public/stix2-type1/t1-stix2text.tfm" 1522426161 28540 097ba14dab39294b86bfe4de12d2fe0b ""
+  "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/fonts/tfm/public/stix2-type1/ts1-stix2text-italic.tfm" 1522426161 1556 d9ebdcfed39f4157d842aa0000ede89d ""
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/fonts/tfm/public/stix2-type1/ts1-stix2text.tfm" 1522426161 1460 ab4098db9455eb1e01cadc3c0fc30c5f ""
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/fonts/type1/ascender/opensans/OpenSans-Bold.pfb" 1561406053 105654 40bc284767ca4f7213cb62e2017e8d11 ""
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/fonts/type1/ascender/opensans/OpenSans-Regular.pfb" 1561406054 100962 9a830a6477c526fbf4a9696e1678f3f0 ""
@@ -154,14 +155,17 @@
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "Chapters/03_mainboard.aux" 1719266228 6920 1846df85e6ff326cf937e8a3cd6d2bc4 "pdflatex"
-  "Chapters/03_mainboard.tex" 1719245698 17911 2dd89dd5774c46f3d75bcfb4b9a02132 ""
+  "Chapters/03_mainboard.aux" 1719344155 8438 1b3c84705c15ed3d3c6f294710878c7a "pdflatex"
+  "Chapters/03_mainboard.tex" 1719344151 20948 e0067404ac3d0260166e997c72d43774 ""
+  "Figures/BQ29700.png" 1719334301 29647 82fcde197e4517798da9658a2d4bc81e ""
   "Figures/EFFICIENCY.PNG" 1719240349 46227 51023934b8f71456f8ecbcf2447f1e28 ""
   "Figures/MB_BATCHG.png" 1719238900 57216 21ecb6c1f20338b0ea754879fc47e8cc ""
+  "Figures/MB_BATPROT.png" 1719334939 17816 1633d21d857921171590d41c01a7b365 ""
   "Figures/MB_LDO.png" 1719239120 10099 ed8fa472e4d4500137ab2deb71ea2e54 ""
   "Figures/MCU_01.png" 1718137292 76747 b8d705e0ad31466dfeb442918616a61d ""
   "Figures/MCU_02.png" 1718137028 17594 66e72372c0a56396d558ac6e7f1e6414 ""
   "Figures/MEMS.png" 1719222463 11167 68b4ead46c99689a2ce3b98e0daddcc8 ""
+  "Figures/RDS_OLD.PNG" 1719343362 16987 ee5392b3ea62629a6f3ed79ab91abe58 ""
   "Figures/RTC.png" 1719218756 16890 c5e3c766c80fe773d59fe0025b01edda ""
   "Figures/SD.png" 1719221198 28803 37da152c7a772d99643182b10690e50d ""
   "Figures/STEVAL.jpg" 1719229791 19686 180de176625add2245842b7b1716b0c9 ""
@@ -171,11 +175,11 @@
   "Figures/pierce.PNG" 1718973334 12407 bfad1857f20c6411bf27a74a37315c60 ""
   "Nikola Gudan - tekst zadatka - ispravljeno.pdf" 1715016497 71989 755306e98484487084f348e0576dd8b2 ""
   "c:/Users/Nikola/Documents/Faks/Diplomski/diplomski-rad/latex-source/diplomski_rad.tex" 1719266224 3952 90998d6d26d85af75be10865e342d00b ""
-  "diplomski_rad.aux" 1719266228 2088 bf8513199362dc1c5124a4f6e73999b0 "pdflatex"
-  "diplomski_rad.bbl" 1719262527 1913 57c7e9e876476893c274ca4a418ea3e6 "bibtex diplomski_rad"
-  "diplomski_rad.out" 1719266228 1936 00b4f2948c8e8650e1332d0cafd0cbaa "pdflatex"
+  "diplomski_rad.aux" 1719344155 2136 a0056110e6c22414c6a586da1fed6359 "pdflatex"
+  "diplomski_rad.bbl" 1719344123 2237 d20f7d932aaa2d23f22b5e282ca1c358 "bibtex diplomski_rad"
+  "diplomski_rad.out" 1719344155 1936 63d987034adee07a63a372886a9807fb "pdflatex"
   "diplomski_rad.tex" 1719266224 3952 90998d6d26d85af75be10865e342d00b ""
-  "diplomski_rad.toc" 1719266228 1494 75ba9700714865305b5f0d960913e828 "pdflatex"
+  "diplomski_rad.toc" 1719344155 1494 ee392670f853d7f0d25f6a24da6bba16 "pdflatex"
   "fer.cls" 1623666897 27127 b6eafcb69e4cae87147606c61c03c61d ""
   (generated)
   "Chapters/03_mainboard.aux"

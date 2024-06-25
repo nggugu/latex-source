@@ -166,7 +166,9 @@ Shema baterijskog punjača prikazana je na slici \ref{slk:MB_BATCHG}. Blokadni k
     \label{slk:MB_BATCHG}
 \end{figure}
 
-Na izlazu punjača se nalazi linearni regulator napona s niskim padom napona (190 mV na struji od 1.5 A) koji regulira napon na 3.3 V (slika \ref{slk:MB_LDO}). Imajući na umu da je ulazna struja linearnog regulatora otprilike ista kao i izlazna struja, dobiva se izlazna struja baterijskog punjača, što odgavara proračunu iz tablice \ref{tab:MB3V3}, a to je ujedno i struja koju daje baterija. Da bi se dobila maksimalna ulazna struja punjača potrebno je uzeti u obzir najgori mogući slučaj: baterija je odspojena, potrošnja sustava je maksimalna. Unutar punjača se nalazi silazni pretvarač, dakle vrijedi:
+Na izlazu punjača se nalazi linearni regulator napona s niskim padom napona (190 mV na struji od 1.5 A) koji regulira napon na 3.3 V (slika \ref{slk:MB_LDO}). Imajući na umu da je ulazna struja linearnog regulatora otprilike ista kao i izlazna struja, dobiva se izlazna struja baterijskog punjača, što odgavara proračunu iz tablice \ref{tab:MB3V3}, a to je ujedno i struja koju daje baterija. Proizvođač preporuča zavojnice vrijednosti 2.2 $\mu$H za slučaj manje valovitosti struje i manjeg ograničenja na prostor, i 1.5 $\mu$H u slučaju manjeg ograničenja na valovitost i većeg ograničenja na prostor. Ovdje je odabrana vrijednost od 2.2 $\mu$H, a zavojnica je odabrana tako da su struje zasićenja zavojnice i maksimalna struja koju zavojnica može podnijeti veće od dvostruke izlazne struje, što je slučaj najveće valovitosti.
+
+Da bi se dobila maksimalna ulazna struja punjača potrebno je uzeti u obzir najgori mogući slučaj: baterija je odspojena, potrošnja sustava je maksimalna. Unutar punjača se nalazi silazni pretvarač, dakle vrijedi:
 \begin{equation}
     P_{IZ}=\eta \cdot P_{UL}
 \end{equation}
@@ -198,4 +200,41 @@ Imajući na umu da će do maksimalne potrošnje doći rijetko kada, ako uopće, 
 \end{equation}
 Dodajući malo sigurnosne margine, za prekostrujnu zaštitu se onda uzima 1.5 A. Za potrebe testiranja i otklanjanje evenutalnih grešaka na ulaz linearnog regulatora dodan je kratkospojnik.
 
-S obzirom na mnoge opasnosti koje litij-ionske baterije nude, potrebno je dizajnirati prikladnu zaštitu za bateriju. U tu svrhu odabran je BQ29700 proizvođača Texas Instruments,
+S obzirom na mnoge opasnosti koje litij-ionske baterije nude, potrebno je dizajnirati prikladnu zaštitu za bateriju. U tu svrhu odabran je BQ29700 proizvođača Texas Instruments, prikazan na slici \ref{slk:BQ29700}. Ovaj integrirani krug ima zaštitu baterije od preniskog i previsokog napona, prejake struje pražnjenja i punjenja i kratkog spoja. Shema sklopa za zaštitu baterije prikazana je na slici \ref{slk:MB_BATPROT}.
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=10 cm]{Figures/BQ29700.png}
+    \caption{BQ29700}
+    \label{slk:BQ29700}
+\end{figure}
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=10 cm]{Figures/MB_BATPROT.png}
+    \caption{Shema sklopa za zaštitu baterije}
+    \label{slk:MB_BATPROT}
+\end{figure}
+Otpornici i kondenzatori su odabrani prema preporukama proizvođača, dok tranzistore bira korisnik \cite{ti:bq29700}. Napon baterije se mjeri preko BAT i VSS stezaljki čipa. U slučaju previsokog napona isključuje se tranzistor Q101, a u slučaju preniskog napona isključuje se tranzistor Q102. Struja se mjeri preko stezaljki V- i VSS, dakle preko otpora tranzistora Q101 i Q102. U slučaju prevelike struje pražnjenja ili kratkog spoja isključuje se tranzistor Q102, a u slučaju prevelike struje punjenja isključuje se tranzistor Q101.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Pragovi aktiviranja zaštite za bateriju \cite{ti:bq29700}}
+    \begin{tabular}{|l|p{1.5cm}|p{1.5cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|} \hline
+    \raggedright
+    & Prevelik napon & Premali napon & Prejaka struja punjenja & Prejaka struja pražnjenja & Struja kratkog spoja \\
+    \hline
+    Prag [V] & 4.275 & 2.800 & -0.100 & 0.100 & 0.5 \\
+    \hline
+    \end{tabular}%
+    \label{tab:BQ29700}%
+\end{table}%
+U tablici \ref{tab:BQ29700} navedeni su pragovi napona na kojima se aktivira zaštita baterije. Ako su oba tranzistora jednaka, onda za struju kroz tranzistor vrijedi:
+\begin{equation} \label{eq:TRANCUR}
+    I_Q = \frac{U_{TH}}{2\cdot R_{DS(on)}}
+\end{equation}
+gdje je \textit{U\textsubscript{TH}} napon praga, a \textit{R\textsubscript{DS(on)}} otpor jednog tranzistora. Iz dokumentacije proizvođača navodi se da tranzistor mora podržavati napon između upravljače elektrode i uvoda u iznosu od $U_{GS}=3.5 \quad \textrm{V}$. Iz grafa ovisnosti \textit{R\textsubscript{DS(on)}} o \textit{U\textsubscript{GS}} prikazanog na slici može se isčitati vrijednost otpora od $R_{DS(on)}=12.5\quad \textrm{m}\Omega$.
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=10 cm]{Figures/RDS_OLD.PNG}
+    \caption{Graf ovisnosti otpora o naponu između upravljačke elektrode i uvoda tranzistora CSD16406Q3 \cite{ti:csd1640}}
+    \label{slk:RDS_OLD}
+\end{figure}
