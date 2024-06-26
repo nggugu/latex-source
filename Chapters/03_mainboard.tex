@@ -5,15 +5,22 @@ Sustav se sastoji od dva uređaja koji rade u simbiozi. Glavna ploča služi za 
 
 Zahtjevi na glavnu ploču su sljedeći:
 \begin{itemize}
-    \item mikrokontroler \engl{Microcontroler Unit, MCU}, dovoljno moćan za pokretanje neuralnih mreža i obradu podataka
-    \item konektor za SD karticu
-    \item bežična komunikacija putem Wi-Fi ili Bluetooth sučelja
-    \item praćenje vremena putem RTC-a
-    \item mikrofon za prikupljanje govora korisnika
-    \item sučelja za testiranje i prženje koda na mikrokontroler
-    \item napajanje i punjenje baterije preko USB C priključka
-    \item baterijsko napajanje putem litij-ionske baterije
+    \item mikrokontroler \engl{Microcontroler Unit, MCU}, dovoljno moćan za pokretanje neuralnih mreža i obradu podataka,
+    \item konektor za SD karticu,
+    \item bežična komunikacija putem Wi-Fi ili Bluetooth sučelja,
+    \item praćenje vremena putem RTC-a,
+    \item mikrofon za prikupljanje govora korisnika,
+    \item sučelja za testiranje i prženje koda na mikrokontroler,
+    \item napajanje i punjenje baterije preko USB C priključka,
+    \item baterijsko napajanje putem litij-ionske baterije.
 \end{itemize}
+Blok dijagram glavne ploče je prikazan na slici \ref{slk:MB_BD}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{Figures/MB_BD.png}
+    \caption{Blok dijagram glavne ploče}
+    \label{slk:MB_BD}
+\end{figure}
 U daljnjem tekstu ovog poglavlja opisane su odabrane komponente, kao i razlog njihova odabira, način, razlozi i proračuni dizajna pojedinih podsustava, te dizajn, proizvodnja i testiranje PCB-a.
 
 \section{Mikrokontroler}
@@ -196,7 +203,7 @@ Iz jednadžbe \ref{eq:IN_CURR} je vidljivo da će ulazna struja biti najveća ka
 
 Imajući na umu da će do maksimalne potrošnje doći rijetko kada, ako uopće, i činjenicu da će sustav imati mogućnost ulaska u način rada mirovanja, može se uzeti kapacitet baterije od 2 Ah, čime se postiže balans trajanja baterije i cijene. U tom slučaju dovoljno je ograničiti punjenje baterije na 1 A, a izračun otpornika je vidljiv na shemi (slika \ref{slk:MB_BATCHG}). Odgovarajuće konstante za izračun otpornika su dobivene iz dokumentacije proizvođača. Sada je isto pomoću jednadžbe \ref{eq:IN_CURR} moguće izračunati ulazni struju; ${I_{UL,BATCHG} = 756\quad \textrm{mA}}$. Ukupna maksimalna ulazna struja je stoga:
 \begin{equation}
-    I_{UL,MAX}=I_{UL,BATCHG}+I_{UL,BATOFF} = 1.38 A
+    I_{UL,MAX}=I_{UL,BATCHG}+I_{UL,BATOFF} = 1.38\quad \textrm{A}
 \end{equation}
 Dodajući malo sigurnosne margine, za prekostrujnu zaštitu se onda uzima 1.5 A. Za potrebe testiranja i otklanjanje evenutalnih grešaka na ulaz linearnog regulatora dodan je kratkospojnik.
 
@@ -238,3 +245,48 @@ gdje je \textit{U\textsubscript{TH}} napon praga, a \textit{R\textsubscript{DS(o
     \caption{Graf ovisnosti otpora o naponu između upravljačke elektrode i uvoda tranzistora CSD16406Q3 \cite{ti:csd1640}}
     \label{slk:RDS_OLD}
 \end{figure}
+Zaštita baterije će se aktivirati u sljedećim uvjetima:
+\begin{itemize}
+    \item prevelika struja punjenja $I_{OCC}=4\quad \textrm{A}$,
+    \item prevelika struja pražnjenja $I_{OCD}=4\quad \textrm{A}$,
+    \item struja kratkog spoja $I_{SCD}=20\quad \textrm{A}$.
+\end{itemize}
+Ovo je dizajn napravljen po uzoru na dokumentaciju proizvođača, međutim, očito je da je ovaj tranzistor loš odabir za ovaj slučaj. Pragovi struja na kojima će se zaštita aktivirati je prevelika, i može doći do oštećenja sklopovlja ili baterije pođe li nešto po zlu. Ispravan način proračuna i odabira tranzistora bit će demonstriran u poglavlju vezan uz izradu narukvice.
+
+\section{USB napajanje}
+
+Evolucijom USB sučelja rasla je snaga koju USB izvor može dati. Tablica \ref{tab:USB} prikazuje snage koje razne verzije USB sučelja mogu dati.
+\begin{table}[htbp]
+    \centering
+    \caption{Maksimalni naponi, struje i snage raznih verzija USB sučelja \cite{ti:usb}}
+    \begin{tabular}{|l|c|c|c|} \hline
+    Verzija & Maksimalni napon & Maksimalna struja & Maksimalna snaga \\
+    \hline
+    USB 2.0 & 5 V & 500 mA & 2.5 W \\
+    \hline
+    USB 3.0 i USB 3.1 & 5 V & 900 mA & 4.5 W \\
+    \hline
+    USB BC 1.2 & 5 V & 1.5 A & 7.5 W \\
+    \hline
+    USB Type-C 1.2 & 5 V & 3 A & 15 W \\
+    \hline
+    USB PD 3.0 & 20 V & 5 A & 100 W \\
+    \hline
+    \end{tabular}
+    \label{tab:USB}
+\end{table}
+Korisnik obično ne razmišlja na koju verziju sučelja spaja svoj uređaj, moguće je spojiti uređaj na USB 2.0 ili USB PD 3.0. Ako je uređaju potrebno 1.5 A struje, a spojen je na USB 2.0, doći će do pada napona na USB izvoru, te može doći do kvara izvora. Iz tog razloga USB C priključak sadržava CC linije preko kojih uređaj i izvor mogu iskomunicirati potrebnu snagu. Način na koji CC linije funkcioniraju je prikazan na slici \ref{slk:USB_CC_LINES}. Izvor u sebi sadržava pritezne otpornike na napajanje spojene na CC linije, dok uređaj, odnosno ponor na CC linije ima spojene pritezne otpornike na masu. Uređaj promatra CC linije kako bi zaključio kako je kabel orijentiran, dok izvor promatra napon na CC linijama, odnosno naponskom djelilu. Mjereći napon izvor može zaključiti koliku snagu traži uređaj. Dakle, najjednostavniji način za USB napajanje uređaja je spojiti par priteznih otpornika na masu, čime se traži fiksna vrijednost snage. Međutim, uređaj mora imati sposobnost napajanja iz više vrsta izvora, te je potrebno nešto kompleksnije rješenje.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=10 cm]{Figures/USB_CC_LINES.png}
+    \caption{Prikaz načina rada CC linija \cite{ti:usb}}
+    \label{slk:USB_CC_LINES}
+\end{figure}
+Radi toga je potrebno projektirati sklopovlje koje može ispregovarati snagu koju izvor može dati kako ne bi došlo do neželjenog ponašanja. Postoji niz integriranih krugova koji to mogu napraviti, a ovdje je odabran CYPD3177 tvrtke Cypress Technologies. Shema USB napajanja prikazana je na slici \ref{slk:MB_USB}.
+\begin{sidewaysfigure}
+    \centering
+    \includegraphics[width=1\textwidth]{Figures/MB_USB.png}
+    \caption{Shema USB napajanja}
+    \label{slk:MB_USB}
+\end{sidewaysfigure}
+Ovaj integrirani krug u sebi ima niz priteznih otpornika na stezaljkama CC1 i CC2 koje su spojene direktno na USB konektor. Struja i napon koju će čip zahtijevati namještaju se naponskim djelilima preko stezaljki ISNK\_COARSE, ISNK\_FINE, VBUS\_MIN i VBUS\_MAX. Vrijednosti otpornika na shemi odabrane su prema savjetima proizvođača \cite{ct:usb}. U ovom slučaju napon koji će se tražiti iznosi 5 V, a struja 1.5 A. Na temelju toga čip postavlja prikladne vrijednosti otpora na CC linije. Ako izvor može dati zahtijevanu snagu čip postavlja stezaljki VBUS\_FET\_EN u visoku razinu, čiji je napon u visokom stanju jednak naponu koji se nalazi na USB priključku. Na taj se način uključuje vanjski P-MOSFET koji prosljeđuje napajanje s USB priključka. Otpori i kondenzatori okolo tranzistora služe s usporavanje rasta napona, čime se izbjegavaju neugodne tranzijentne pojave. Za indikaciju neuspješnog dogovora između izvora i uređaja služi crvena svjetleća dioda D201. Za svrhe testiranja i otklanjanja grešaka predviđeni su kratkospojnici kojima se može odvojiti i preskočiti ovaj dio sklopovlja. U tom slučaju potrebno je zalemiti otpornike R204 i R203 u vrijednosti od 5.1 k$\Omega$, čime se traži snaga od 15 W (5 V, 3 A).
