@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex diplomski_rad"] 1719522895.16661 "diplomski_rad.aux" "diplomski_rad.bbl" "diplomski_rad" 1719522895.59539 2
-  "./Chapters/03_mainboard.aux" 1719522893 10020 ae37030715e664a7ab57cc11526aafea ""
-  "./Chapters/04_bracelet.aux" 1719522893 1611 a02c3460b8d0b5696066c3ec740e12d4 ""
+["bibtex diplomski_rad"] 1719522906.27902 "diplomski_rad.aux" "diplomski_rad.bbl" "diplomski_rad" 1719522906.63651 2
+  "./Chapters/03_mainboard.aux" 1719522904 10017 d1e0b70e75164a37b6cca5d658e9c78a ""
+  "./Chapters/04_bracelet.aux" 1719522905 1611 bdea9def9faf36b8e6ceef7ceaa5f158 ""
   "./fer_IEEEtran_HR.bst" 1623666897 60896 90d69aefaad7b24856119a58e789af2e ""
   "./literatura.bib" 1719519231 3067 4a0ff3bd205e356451f01c42fcc6d170 ""
-  "diplomski_rad.aux" 1719522893 2240 da12b2025597a8ba19e4bb7bf22db49f "pdflatex"
+  "diplomski_rad.aux" 1719522905 2240 b14e517a991e70f6b4583407e5e8aab7 "pdflatex"
   (generated)
   "diplomski_rad.bbl"
   "diplomski_rad.blg"
   (rewritten before read)
-["pdflatex"] 1719522890.55024 "c:/Users/Nikola/Documents/Faks/Diplomski/diplomski-rad/latex-source/diplomski_rad.tex" "diplomski_rad.pdf" "diplomski_rad" 1719522895.59588 0
+["pdflatex"] 1719522901.64135 "c:/Users/Nikola/Documents/Faks/Diplomski/diplomski-rad/latex-source/diplomski_rad.tex" "diplomski_rad.pdf" "diplomski_rad" 1719522906.63701 0
   "C:/Users/Nikola/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1715614059 145918 98c1175bfca4bd782b0fadacab9aef45 ""
   "C:/Users/Nikola/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1709146587 24232400 030f586683b20c1ca4f9724cfd01f721 ""
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/opensans/a_jg4h6q.enc" 1561406082 2952 84fda6c8ae8be17712e9d998ffe48bad ""
@@ -157,9 +157,9 @@
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
   "C:/Users/Nikola/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "Chapters/03_mainboard.aux" 1719522893 10020 ae37030715e664a7ab57cc11526aafea "pdflatex"
+  "Chapters/03_mainboard.aux" 1719522904 10017 d1e0b70e75164a37b6cca5d658e9c78a "pdflatex"
   "Chapters/03_mainboard.tex" 1719497236 25724 04182cbeefa8a5aa64ec47953d3f7c4e ""
-  "Chapters/04_bracelet.aux" 1719522893 1611 a02c3460b8d0b5696066c3ec740e12d4 "pdflatex"
+  "Chapters/04_bracelet.aux" 1719522905 1611 bdea9def9faf36b8e6ceef7ceaa5f158 "pdflatex"
   "Chapters/04_bracelet.tex" 1719522884 1519 4ff1c1ae706dd991eb487f32d84f6367 ""
   "Figures/BQ29700.png" 1719334301 29647 82fcde197e4517798da9658a2d4bc81e ""
   "Figures/BR_WIRELESS.png" 1719520378 46013 ab81802b653f3385b51cb0bb75270ad7 ""
@@ -183,11 +183,11 @@
   "Figures/pierce.PNG" 1718973334 12407 bfad1857f20c6411bf27a74a37315c60 ""
   "Nikola Gudan - tekst zadatka - ispravljeno.pdf" 1715016497 71989 755306e98484487084f348e0576dd8b2 ""
   "c:/Users/Nikola/Documents/Faks/Diplomski/diplomski-rad/latex-source/diplomski_rad.tex" 1719512288 4064 d8cf5ebf0113c1e6ebbdaeeade941436 ""
-  "diplomski_rad.aux" 1719522893 2240 da12b2025597a8ba19e4bb7bf22db49f "pdflatex"
-  "diplomski_rad.bbl" 1719522895 0 d41d8cd98f00b204e9800998ecf8427e "bibtex diplomski_rad"
-  "diplomski_rad.out" 1719522893 2572 997364c0f584594efc1f1190058ed07f "pdflatex"
+  "diplomski_rad.aux" 1719522905 2240 b14e517a991e70f6b4583407e5e8aab7 "pdflatex"
+  "diplomski_rad.bbl" 1719522906 0 d41d8cd98f00b204e9800998ecf8427e "bibtex diplomski_rad"
+  "diplomski_rad.out" 1719522905 2572 997364c0f584594efc1f1190058ed07f "pdflatex"
   "diplomski_rad.tex" 1719512288 4064 d8cf5ebf0113c1e6ebbdaeeade941436 ""
-  "diplomski_rad.toc" 1719522893 1877 5710a484813c679cfb140b888504a952 "pdflatex"
+  "diplomski_rad.toc" 1719522905 1876 3324116b35c6c680779f210481869a1c "pdflatex"
   "fer.cls" 1623666897 27127 b6eafcb69e4cae87147606c61c03c61d ""
   (generated)
   "Chapters/03_mainboard.aux"

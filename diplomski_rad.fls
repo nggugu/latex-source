@@ -376,9 +376,9 @@ INPUT C:\Users\Nikola\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\sy
 INPUT C:\Users\Nikola\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT C:\Users\Nikola\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT C:\Users\Nikola\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
+OUTPUT diplomski_rad.toc
 INPUT C:\Users\Nikola\AppData\Local\Programs\MiKTeX\fonts\vf\ascender\opensans\OpenSans-Bold-T1-TLF.vf
 INPUT C:\Users\Nikola\AppData\Local\Programs\MiKTeX\fonts\tfm\ascender\opensans\OpenSans-Bold-T1-TLF--base.tfm
-OUTPUT diplomski_rad.toc
 INPUT .\Chapters\03_mainboard.tex
 INPUT .\Chapters\03_mainboard.tex
 OUTPUT .\Chapters\03_mainboard.aux
