@@ -175,6 +175,33 @@ Shema baterijskog punjača prikazana je na slici \ref{slk:MB_BATCHG}. Blokadni k
 
 Na izlazu punjača se nalazi linearni regulator napona s niskim padom napona (190 mV na struji od 1.5 A) koji regulira napon na 3.3 V (slika \ref{slk:MB_LDO}). Imajući na umu da je ulazna struja linearnog regulatora otprilike ista kao i izlazna struja, dobiva se izlazna struja baterijskog punjača, što odgavara proračunu iz tablice \ref{tab:MB3V3}, a to je ujedno i struja koju daje baterija. Proizvođač preporuča zavojnice vrijednosti 2.2 $\mu$H za slučaj manje valovitosti struje i manjeg ograničenja na prostor, i 1.5 $\mu$H u slučaju manjeg ograničenja na valovitost i većeg ograničenja na prostor. Ovdje je odabrana vrijednost od 2.2 $\mu$H, a zavojnica je odabrana tako da su struje zasićenja zavojnice i maksimalna struja koju zavojnica može podnijeti veće od dvostruke izlazne struje, što je slučaj najveće valovitosti.
 
+Radi potreba testiranja dodani su pritezni otpornici na stezaljkama USB1, USB2 i USB3. Ovisno o logičkim razinama na tim stezaljkama moguće je ograničiti struju na ulazu za USB. Razne konfiguracije ograničenja struje prikazane su u tablici \ref{tab:USB_ILIM}. Uobičajeno ograničenje u ovom slučaju je 1.5 A.
+\begin{table}[htbp]
+    \centering
+    \caption{Ograničenja struje USB-a \cite{ti:bq24166}}
+    \begin{tabular}{|c|c|c|c|c|} \hline
+    IUSB3 & IUSB2 & IUSB1 & Ograničenje ulazne struje & Minimalni napon \\
+    \hline
+    0 & 0 & 0 & 100 mA & 4.28 V \\
+    \hline
+    0 & 0 & 1 & 500 mA & 4.44 V \\
+    \hline
+    0 & 1 & 0 & 1.5 A & 4.44 V \\
+    \hline
+    0 & 1 & 1 & Visoka impedancija & Nikakav \\
+    \hline
+    1 & 0 & 0 & 150 mA & 4.28 V \\
+    \hline
+    1 & 0 & 1 & 900 mA & 4.44 V \\
+    \hline
+    1 & 1 & 0 & 800 mA & 4.44 V \\
+    \hline
+    1 & 1 & 1 & Visoka impedancija & Nikakav \\
+    \hline
+    \end{tabular}%
+    \label{tab:USB_ILIM}%
+\end{table}%
+
 Da bi se dobila maksimalna ulazna struja punjača potrebno je uzeti u obzir najgori mogući slučaj: baterija je odspojena, potrošnja sustava je maksimalna. Unutar punjača se nalazi silazni pretvarač, dakle vrijedi:
 \begin{equation}
     P_{IZ}=\eta \cdot P_{UL}
