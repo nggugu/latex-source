@@ -113,16 +113,23 @@ Još jedna razlika je u priteznim otpornicima na konfiguracijskim linijama za og
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{Figures/BR_BATCHG.png}
-    \caption{Shema punjača baterije}
+    \caption{Shema punjača baterije na narukvici}
     \label{slk:BR_BATCHG}
 \end{figure}
 
 Zadnja razlika je vrlo subtilna, ali veoma ključna za ispravan rad punjača. Pogledom na shemu na slici \ref{slk:MB_BATCHG} vidljivo je da stezaljka TS nije nigdje spojena, odnosno ,,pluta''. Ova stezaljka služi za mjerenje temperature baterije tijekom punjenja. Ako je temperatura prevelika ili premala punjenje se zaustavlja. Shema mjerenja prikazana je na slici \ref{slk:BATCHG_TS}. Mjeri se napon na naponskom djelilu kojega čine otpornici i NTC termistor. Naponi na kojima se zaštita aktivira iznose 30\% i 60\% napona na stezaljci DRV, dakle 1.56 V i 3.12 V. S obzirom da stezaljka TS ,,pluta'', napon na stezaljci je manji od donjega praga i punjenje ne radi. Kako bi se mjerenje temperature onemogućilo napon na TS stezaljci mora biti veći od 70\% napona na stezaljci DRV. Iz tog razloga proizvođač preporuča kratko spajanje stezaljka TS i DRV kako bi punjenje cijelo vrijeme bilo omogućeno.
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=\textwidth]{Figures/BATCHG_TS.png}
+    \includegraphics[width=6 cm]{Figures/BATCHG_TS.png}
     \caption{Mjerenje temprature senzora}
     \label{slk:BATCHG_TS}
 \end{figure}
 
 \subsection{Baterijska zaštita}
+Shema baterijske zaštite na narukvici je prikazana na slici \ref{slk:BR_BATPROT}. Shema je slična onoj sa glavne ploče na slici \ref{slk:MB_BATPROT}, a ovdje su tranzistori pažljivije odabrani. To be continued
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{Figures/BR_BATPROT.png}
+    \caption{Baterijska zaštita na narukvici}
+    \label{slk:BR_BATPROT}
+\end{figure}
