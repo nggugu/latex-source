@@ -204,6 +204,7 @@ Iz jednadžbe \ref{eq:IN_CURR} je vidljivo da će ulazna struja biti najveća ka
 Imajući na umu da će do maksimalne potrošnje doći rijetko kada, ako uopće, i činjenicu da će sustav imati mogućnost ulaska u način rada mirovanja, može se uzeti kapacitet baterije od 2 Ah, čime se postiže balans trajanja baterije i cijene. U tom slučaju dovoljno je ograničiti punjenje baterije na 1 A, a izračun otpornika je vidljiv na shemi (slika \ref{slk:MB_BATCHG}). Odgovarajuće konstante za izračun otpornika su dobivene iz dokumentacije proizvođača. Sada je isto pomoću jednadžbe \ref{eq:IN_CURR} moguće izračunati ulazni struju; ${I_{UL,BATCHG} = 756\quad \textrm{mA}}$. Ukupna maksimalna ulazna struja je stoga:
 \begin{equation}
     I_{UL,MAX}=I_{UL,BATCHG}+I_{UL,BATOFF} = 1.38\quad \textrm{A}
+    \label{eq:IN_CURR_MAX}
 \end{equation}
 Dodajući malo sigurnosne margine, za prekostrujnu zaštitu se onda uzima 1.5 A. Za potrebe testiranja i otklanjanje evenutalnih grešaka na ulaz linearnog regulatora dodan je kratkospojnik.
 
