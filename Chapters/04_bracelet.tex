@@ -89,7 +89,7 @@ Shema izvora referentnog napona prikazana je na slici \ref{slk:BR_VREF}. Koristi
 Za napajanje od 5 V bilo je potrebno dizajnirati uzlazni prekidački regulator. Shema regulatora prikazana je na slici \ref{slk:BR_BOOST}. Odabran je TLV61220 proizvođača Texas Instruments jer je idealan za napajanje sa baterije. Regulator može raditi na ulaznom naponu od 0.7 V do 5.5 V i potrebno je malo komponenata za rad \cite{ti:tlv61220}. Također je pogodan radi svoje male veličine u SOT-23 kućištu.
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=13 cm]{Figures/BR_BOOST.png}
+    \includegraphics[width=10 cm]{Figures/BR_BOOST.png}
     \caption{Uzlazni prekidački regulator}
     \label{slk:BR_BOOST}
 \end{figure}
@@ -103,7 +103,7 @@ Efikasnost za izlazne struje od 1 mA do 50 mA je skoro ista na ulaznom naponu u 
 \end{figure}
 
 \section{Baterija i punjač baterije}
-
+\label{sec:BR_BATCHG}
 Uzevši u obzir potršnju svih podsustava ukupna struja koju punjač mora moći dati je 426.12 mA. Uz struju punjenja baterije od 1 A i uzevši u obzir jednadžbe \ref{eq:IN_CURR} i \ref{eq:IN_CURR_MAX} ukupna struja koju USB sučelje mora moći dati iznosi 1.08 A, dakle uzet će se ograničenje na ulaznu struju od 1.5 A. Uvijeti su, dakle, veoma slični onima kao kod glavne ploče.
 
 \subsection{Punjač baterije}
@@ -126,10 +126,40 @@ Zadnja razlika je vrlo subtilna, ali veoma ključna za ispravan rad punjača. Po
 \end{figure}
 
 \subsection{Baterijska zaštita}
-Shema baterijske zaštite na narukvici je prikazana na slici \ref{slk:BR_BATPROT}. Shema je slična onoj sa glavne ploče na slici \ref{slk:MB_BATPROT}, a ovdje su tranzistori pažljivije odabrani. To be continued
+\sloppy Shema baterijske zaštite na narukvici je prikazana na slici \ref{slk:BR_BATPROT}. Shema je slična onoj sa glavne ploče na slici \ref{slk:MB_BATPROT}, a ovdje su tranzistori pažljivije odabrani. Maksimalna struja pražnjenja iznosi, prema \ref{sec:BR_BATCHG}, iznosi 426.12 mA. Za aktivaciju zaštite uzet će se struja od $I_{OCD}=1.5\quad \textrm{A}$, dakle otpor obaju FET-ova prema jednadžbi \ref{eq:TRANCUR} iznosi ${2R_{DS(on)}=66.67\quad \textrm{m}\Omega}$. Na temelju toga, struja na kojoj će se aktivirati zaštita za punjenje iznosi $I_{OCC}=1.5\quad \textrm{A}$. Dakle, tranzistor treba imati otpor $R_{DS(on)}=33.33\quad \textrm{m}\Omega$. Struja na kojoj će se aktivirati zaštita od kratkog spoja iznosi $I_{SCD}=7.5\quad \textrm{A}$, tako da tranzistor mora moći podnijeti tu struju. Prikaz promjene otpora u ovisnosti o naponu i struji odabranog tranzistora prikazana je na slici \ref{slk:RDS_NEW}. Vidljivo je da će otpor biti veći sa većom strujom, što znači da će se zaštita aktivirati nešto prije vrijednosti proračunatih pragova, a opet se neće aktivirati prerano da se onemogući punjenje, što je i poželjno sa perspektive sigurnosti.
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=\textwidth]{Figures/BR_BATPROT.png}
+    \includegraphics[width=10 cm]{Figures/BR_BATPROT.png}
     \caption{Baterijska zaštita na narukvici}
     \label{slk:BR_BATPROT}
+\end{figure}
+\begin{figure}[h!tb]
+    \centering
+    \includegraphics[width=6 cm]{Figures/RDS_NEW.PNG}
+    \caption{Graf ovisnosti otpora o naponu između upravljačke elektrode i uvoda tranzistora DMG4466SSS-13 \cite{di:dmg4466}}
+    \label{slk:RDS_NEW}
+\end{figure}
+Očito je da je ovo bolje projektirana zaštita u odnosu na onu na glavnoj ploči.
+
+Ovdje su još dodani i otpori između upravljačke elektrode i uvoda tranzistora koji služe za bolje izbijanje naboja na kapacitetu između upravljačle elektrode i uvoda tranzistora \cite{ti:bq29700}.
+
+\section{PCB}
+Tijekom projektiranja PCB osim što je bilo potrebno paziti na iste probleme kao i kod glavne ploče, bilo je potrebno paziti na ograničenje prostora i dvostranu montažu. Na slikama \ref{slk:BR_PCB_TOP} i \ref{slk:BR_PCB_BOT} prikazan je 3D prikaz projektiranje pločice.
+
+Za razliku od glavne ploče, ovdje je podsustav za bežičnu komunikaciju postavljen tako da se antena nalazi u potpunosti izvan pločice. Na taj način podsustav će bolje primati signale i stvarati manje smetnje na pločicu tijekom slanja signala.
+
+Ideja je da se PPG senzor nalazi na dijelu narukvice koja ostvaruje kontakt s kožom, pa je radi toga potrebno bilo postaviti senzor na donji sloj pličice (slika \ref{slk:BR_PCB_BOT}).
+
+Radi ograničenja prostora maknute su sve testne točke i kratkospojnici.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=10 cm]{Figures/BR_PCB.png}
+    \caption{3D prikaz gornjeg sloja pločice}
+    \label{slk:BR_PCB_TOP}
+\end{figure}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=10 cm]{Figures/BR_PCB_BOT.png}
+    \caption{3D prikaz donjeg sloja pločice}
+    \label{slk:BR_PCB_BOT}
 \end{figure}
