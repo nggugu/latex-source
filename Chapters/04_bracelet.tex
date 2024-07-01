@@ -143,6 +143,17 @@ Očito je da je ovo bolje projektirana zaštita u odnosu na onu na glavnoj ploč
 
 Ovdje su još dodani i otpori između upravljačke elektrode i uvoda tranzistora koji služe za bolje izbijanje naboja na kapacitetu između upravljačle elektrode i uvoda tranzistora \cite{ti:bq29700}.
 
+\section{USB napajanje}
+\label{sec:BR_USB}
+Shema USB napajanja narukvice prikazana je na slici \ref{slk:BR_USB}. Dodan je pritezni otpornik R102 koji osigurava da ne dolazi do smanjenja napona na uvodu tranzistora Q101B radi diode u tranzistoru Q101A. Dodana je i Zener dioda od 10 V koja služi za zaštitu od prevelikog napona.
+
+Osim toga, naponska djelila koja služe za podešavanje struje i napona USB-a se sada napajaju sa internog regulatora čipa. Kod središnjeg uređaja (slika \ref{slk:MB_USB}) su se napajala sa regulatora od 3.3 V koji se nalazi na pločici, što je u redu dok god je prikopčana puna baterija. Međutim, u slučaju prazne ili iskopčane baterije dolazi do problema, jer je sada sustav ostao bez napajanja i ne mogu se podesiti naponi i struje USB-a. To je veoma grub previd i ispravljen je na ovaj način, što je i preporuka proizvođača.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{Figures/BR_USB.png}
+    \caption{USB napajanje na narukvici}
+    \label{slk:BR_USB}
+\end{figure}
 \section{PCB}
 Tijekom projektiranja PCB osim što je bilo potrebno paziti na iste probleme kao i kod glavne ploče, bilo je potrebno paziti na ograničenje prostora i dvostranu montažu. Na slikama \ref{slk:BR_PCB_TOP} i \ref{slk:BR_PCB_BOT} prikazan je 3D prikaz projektiranje pločice.
 
