@@ -31,10 +31,46 @@ Tijekom čekanja izrade tiskane pločice, razvijena je cjelokupna programska pod
 
 \section{Narukvica}
 
-Na temelju ispitivanja središnjeg uređaja, napravljene su izmjene i popravci napajanja opisani u poglavlju \ref{pog:bracelet}.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=10 cm]{Figures/BR_TEST_02.jpg}
     \caption{Postava ispitivanja pločice narukvice}
-    \ref{slk:BR_TEST_01}
+    \label{slk:BR_TEST_01}
 \end{figure}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=10 cm]{Figures/BR_TEST_01.jpg}
+    \caption{Ispitivanje pločice narukvice}
+    \label{slk:BR_TEST_02}
+\end{figure}
+
+Na temelju ispitivanja središnjeg uređaja, napravljene su izmjene i popravci napajanja opisani u poglavlju \ref{pog:bracelet}. Prikaz ispitivanja se nalazi na slikama \ref{slk:BR_TEST_01} i \ref{slk:BR_TEST_02}.
+
+Tijekom ispitivanja primjećena je greška u dizajnu baterijskog napajanja. Ime mreže koja je spojena na pozitivan terminal baterije (slika \ref{slk:BR_BATPROT}) i ime mreže koja je spojena na ulaz za bateriju na punjaču (slika \ref{slk:BR_BATCHG}) su različiti. Radi toga baterija, nakon zaštite, efektivno nije bila nigdje spojena, pa je bilo potrebno te dvije mreže kratko spojiti žicom.
+
+Napajanje sada radi. Podsustav za USB napajanje sada može upravljati napajanjem i kada je na uređaj spojeno samo USB napajanje, a i cjelokupna narukvica se sada može napajati sa USB-a i kada baterija nije spojena. Baterijski punjač može proslijediti napajanje baterije ili može regulirati napajanje USB-a.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=10 cm]{Figures/BR_TEST_04.jpg}
+    \caption{Brzo punjenje, punjenje konstantnom strujom}
+    \label{slk:BR_TEST_04}
+\end{figure}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=10 cm]{Figures/BR_TEST_03.jpg}
+    \caption{Brzo punjenje, punjenje konstantnim naponom}
+    \label{slk:BR_TEST_03}
+\end{figure}
+Punjenje baterije konstantnom strujom i konstantnim naponom prikazano je na slikama \ref{slk:BR_TEST_04} i \ref{slk:BR_TEST_03}. Sustav ima napajanje i tijekom punjenja, dakle punjač sada isto radi. Prekidački i linearni regulatori provjereni su multimetrom i na svom izlazu pokazuju napon za koji su projektirani.
+
+Tijekom ispitivanja mjernog lanca za EDR primjećeno je da je priključak za elektrode veoma loše kvalitete jer se je stalno gubio kontakt. Radi toga je taj priključak odlemljen, a žice za EDR su onda direktno zalemljene na pločicu. Još jedan problem je osciliranje pojačala, a to je rješeno preuzorkovanjem i usrednjavanjem više mjerenja sa ADC-a. Nakon toga su se dobivala stabilna mjerenja koja su odgovarala očekivanim rezultatima.
+
+PPG senzor se nažalost nije mogao ispitati. Naime, tijekom montaže, gornji sloj pločice se je lemio pomoću infracrvene peći radi velike količine komponenata, dok je donji sloj lemljen pomoću vrućeg zraka. Senzor nije predviđen za montažu vrućim zrakom, pa se je tijekom lemljenja oštetio i otpalo je stakalce koje štiti diode i fotodetektor. Također nije bilo moguće provijeriti kvalitetu lemnog spoja jer se stezaljke nalaze ispod čipa. Radi toga je na sustav spojen modul sa senzorom MAX30100, koji se od MAX30101 razlikuje u nedostatku zelene svjetleće diode. Prikaz načina spoja modula na pločicu prikazan je na slici \ref{slk:BR_TEST_05}. Na ovaj način ispitana je razvijena programska podrška za PPG mjerenje. S obzirom da se radi o modulu, sklopovsko rješenje je očito ispravno.
+\begin{figure}
+    \centering
+    \includegraphics[width=10 cm]{Figures/BR_TEST_05.jpg}
+    \caption{Spoj modula sa MAX30100 na pločicu}
+    \label{slk:BR_TEST_05}
+\end{figure}
+
+ESP modul koji se nalazi na pločici programiran je putem USB sučelja.
