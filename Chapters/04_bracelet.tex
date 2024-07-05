@@ -1,11 +1,11 @@
 \chapter{Narukvica}
 \label{pog:bracelet}
-Svrha narukvice je prikupljanje biomedicinskih parmetara korisnika i njihovo slanje na obradu na glavnoj ploči. Biomedicinski parametri koji će se promatrati su brzina otkucaja srca putem fotopletizmografskog senzora (PPG) i impedancija kože, odnosno elektrodermalna aktivnost. Promjena elektrodermalna aktivnost je dobar pokazatelj stresa u korisnika \cite{edr}, a osobe sa poremećajem tečnosti govora pokazuju značajno smanjenje brzine otkucaja srca u stresnim situacijama u odnosu na osobe bez takvih poremećaja \cite{ALM2004123}.
+Svrha narukvice je prikupljanje biomedicinskih parametara korisnika i njihovo slanje na obradu na glavnoj ploči. Biomedicinski parametri koji će se promatrati su brzina otkucaja srca putem fotopletizmografskog senzora (PPG) i impedancija kože, odnosno elektrodermalna aktivnost. 
 
 Što se tiče zahtjeva na napajanje narukvice, situacija je ista kao i kod glavne ploče, uz drugačiju potrošnju. Tako da izrada pločice za narukvicu predstavlja mogućnost ispravljanja grešaka nastalih tijekom dizajna napajanja glavne ploče. Narukvica također mora imati mogućnost bežične komunikacije. S obzirom na ograničenje veličine ploče maknuti su kratkospojnici i testne točke.
 
 \section{Bežična komunikacija}
-Shema bežične komunikacije na narukvici (slika \ref{slk:BR_WIRELESS}) je veoma slična onoj na glavnoj ploči (slika \ref{slk:WIFI}), uz nedostatak kratkospojnika, dodatak signala za upravljanje I\textsubscript{2}C sučeljem i korištenje analogno-digitalnog pretvornika za mjerenje impadancije kože. Još jedna promjena dolazi u obliku programiranja preko UART-a. S obzirom na probleme tijekom programiranja glavne ploče dodani su signali DTR i CTS kako bi se BOOT i EN stezaljke ESP mikrokontrolera mogle programski upravljati.
+Shema bežične komunikacije na narukvici (slika \ref{slk:BR_WIRELESS}) je veoma slična onoj na glavnoj ploči (slika \ref{slk:WIFI}), uz nedostatak kratkospojnika, dodatak signala za upravljanje I\textsubscript{2}C sučeljem i korištenje analogno-digitalnog pretvornika za mjerenje impedancije kože. Još jedna promjena dolazi u obliku programiranja preko UART-a. S obzirom na probleme tijekom programiranja glavne ploče dodani su signali DTR i CTS kako bi se BOOT i EN stezaljke ESP mikrokontrolera mogle programski upravljati.
 \begin{sidewaysfigure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{Figures/BR_WIRELESS.png}
@@ -16,7 +16,7 @@ Shema bežične komunikacije na narukvici (slika \ref{slk:BR_WIRELESS}) je veoma
 \newpage
 \section{Fotopletizmografski senzor}
 
-Za mjerenje brzine otkucaja srca koristi se PPG senzor MAX30101 tvrtke Analog Devices (slika \ref{slk:MAX30101}). Ovaj snezor u sebi ima crvenu, zelenu i infracrvenu svjetleću diodu i fotosenzor, upravljačko sklopovlje za diode, te komunicira preko I\textsuperscript{2}C sučelja. Kao što je vidljivo na shemi na slici \ref{slk:PPG} ovaj senzor je veoma jednostavan za implementaciju uz svega par par priteznih otpornika i blokadnih kondenzatora. Jedina komplikacija dolazi u obliku napajanja od 5 V, koje je potrebno jer je pad napona na zelenoj svjetlećoj diodi specificiran na 3.3 V.
+Za mjerenje brzine otkucaja srca koristi se PPG senzor MAX30101 tvrtke Analog Devices (slika \ref{slk:MAX30101}). Ovaj senzor u sebi ima crvenu, zelenu i infracrvenu svjetleću diodu i fotosenzor, upravljačko sklopovlje za diode, te komunicira preko I\textsuperscript{2}C sučelja. Kao što je vidljivo na shemi na slici \ref{slk:PPG} ovaj senzor je veoma jednostavan za implementaciju uz svega par par priteznih otpornika i blokadnih kondenzatora. Jedina komplikacija dolazi u obliku napajanja od 5 V, koje je potrebno jer je pad napona na zelenoj svjetlećoj diodi specificiran na 3.3 V.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=6 cm]{Figures/MAX30101.JPG}
@@ -42,7 +42,7 @@ Za mjerenje impedancije koristi se referentni napon od 0.5 V, a mjerenje impedan
 \begin{equation} \label{eq:EDR}
     U_{IZ}=A\cdot U_{REF}\cdot \frac{R_{403}}{R_{403}+R_{skin}}
 \end{equation}
-Impedancija kože mjeri se u stotinama kilooma (maksimalno cca. $250\quad \textrm{k}\Omega$ \cite{rskin}), tako da je vrijednost gornjeg otpornika $200\quad \textrm{k}\Omega$. Pojačanje iznosi 2 i namješta se preko otpornika R402.
+Impedancija kože mjeri se u stotinama kilooma (maksimalno cca. $250\textrm{ k}\Omega$ \cite{rskin}), tako da je vrijednost gornjeg otpornika $200\textrm{ k}\Omega$. Pojačanje iznosi 2 i namješta se preko otpornika R402.
 
 Za svrhe lakšeg prototipiranja koristit će se samoljepljive elektrode (slika \ref{slk:ELECTRODE}) koje se montiraju na kabel prikazan na slici \ref{slk:CABLE}. 
 \begin{figure}[htb]
@@ -62,7 +62,7 @@ Ovaj kabel se spaja na narukvicu putem 3.5 mm audio priključka.
 \section{Napajanje}
 \subsection{Proračun potrošnje}
 
-Proračun potrošnje za narukvicu je bio puno jednostavniji od proračuna za glavnu ploču. U ovom slučaju, najveći potrošač je i dalje sustav za bežičnu komunikaciju, međutim on je efektivno i jedini potrošać na 3.3 V jer je potrošnja instrumentacijskog pojačala izrazito mala, maksimalno $20\quad \mu \textrm{A}$ \cite{ad:ad8226}. Za potrošnju sustava bežične komunikacije uzima se vrijednost prikazana u tablici \ref{tab:MB3V3}. Na napajanju od 5 V jedini potrošač je PPG senzor i njegova potrošnja u najgorem slučaju iznosi 50 mA, a na napajanju od 1.8 V senzor troši maksimalno 1.1 mA \cite{ad:max30101}.
+Proračun potrošnje za narukvicu je bio puno jednostavniji od proračuna za glavnu ploču. U ovom slučaju, najveći potrošač je i dalje sustav za bežičnu komunikaciju, međutim on je efektivno i jedini potrošač na 3.3 V jer je potrošnja instrumentacijskog pojačala izrazito mala, maksimalno $20\quad \mu \textrm{A}$ \cite{ad:ad8226}. Za potrošnju sustava bežične komunikacije uzima se vrijednost prikazana u tablici \ref{tab:MB3V3}. Na napajanju od 5 V jedini potrošač je PPG senzor i njegova potrošnja u najgorem slučaju iznosi 50 mA, a na napajanju od 1.8 V senzor troši maksimalno 1.1 mA \cite{ad:max30101}.
 
 \subsection{Napajanja od 3.3 V i 1.8 V}
 \label{subsec:BR_VDD}
