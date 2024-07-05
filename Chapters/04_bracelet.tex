@@ -62,11 +62,11 @@ Ovaj kabel se spaja na narukvicu putem 3.5 mm audio priključka.
 \section{Napajanje}
 \subsection{Proračun potrošnje}
 
-Proračun potrošnje za narukvicu je bio puno jednostavniji od proračuna za glavnu ploču. U ovom slučaju, najveći potrošač je i dalje sustav za bežičnu komunikaciju, međutim on je efektivno i jedini potrošač na 3.3 V jer je potrošnja instrumentacijskog pojačala izrazito mala, maksimalno $20\quad \mu \textrm{A}$ \cite{ad:ad8226}. Za potrošnju sustava bežične komunikacije uzima se vrijednost prikazana u tablici \ref{tab:MB3V3}. Na napajanju od 5 V jedini potrošač je PPG senzor i njegova potrošnja u najgorem slučaju iznosi 50 mA, a na napajanju od 1.8 V senzor troši maksimalno 1.1 mA \cite{ad:max30101}.
+Proračun potrošnje za narukvicu je bio puno jednostavniji od proračuna za glavnu ploču. U ovom slučaju, najveći potrošač je i dalje sustav za bežičnu komunikaciju, međutim on je efektivno i jedini potrošač na 3.3 V jer je potrošnja instrumentacijskog pojačala izrazito mala, maksimalno 20 $\mu\textrm{A}$ \cite{ad:ad8226}. Za potrošnju sustava bežične komunikacije uzima se vrijednost prikazana u tablici \ref{tab:MB3V3}. Na napajanju od 5 V jedini potrošač je PPG senzor i njegova potrošnja u najgorem slučaju iznosi 50 mA, a na napajanju od 1.8 V senzor troši maksimalno 1.1 mA \cite{ad:max30101}.
 
 \subsection{Napajanja od 3.3 V i 1.8 V}
 \label{subsec:BR_VDD}
-Shema napajanja od 3.3 V i 1.8 V prikazana je na slici \ref{slk:BR_VDD}. U oba slučaja koristi se LDO AP2112K proizvođača Diodes Incorporated. Ovaj LDO je odabran radi svoje male veličine u SOT-25 s obzirom na ograničenje veličine PCB-a. 
+Shema napajanja od 3.3 V i 1.8 V prikazana je na slici \ref{slk:BR_VDD}. U oba slučaja koristi se LDO AP2112K proizvođača Diodes Incorporated. Ovaj LDO je odabran radi svoje male veličine u SOT-25 s obzirom na ograničenje veličine PCB-a.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=6 cm]{Figures/BR_VDD.png}
@@ -86,47 +86,46 @@ Shema izvora referentnog napona prikazana je na slici \ref{slk:BR_VREF}. Koristi
 
 \subsection{Napajanje od 5 V}
 
-Za napajanje od 5 V bilo je potrebno dizajnirati uzlazni prekidački regulator. Shema regulatora prikazana je na slici \ref{slk:BR_BOOST}. Odabran je TLV61220 proizvođača Texas Instruments jer je idealan za napajanje sa baterije. Regulator može raditi na ulaznom naponu od 0.7 V do 5.5 V i potrebno je malo komponenata za rad \cite{ti:tlv61220}. Također je pogodan radi svoje male veličine u SOT-23 kućištu.
+Za napajanje od 5 V bilo je potrebno dizajnirati uzlazni prekidački regulator. Shema regulatora prikazana je na slici \ref{slk:BR_BOOST}. Odabran je TLV61220 proizvođača Texas Instruments jer je idealan za napajanje s baterije. Regulator može raditi na ulaznom naponu od 0.7 V do 5.5 V i potrebno je malo komponenata za rad \cite{ti:tlv61220}. Također je pogodan radi svoje male veličine u SOT-23 kućištu.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=10 cm]{Figures/BR_BOOST.png}
     \caption{Uzlazni prekidački regulator}
     \label{slk:BR_BOOST}
 \end{figure}
-Zavojnica je odabrana prema preporukama proizvođača, a naponsko djelilo je proračunato imajući na umu da donji otpornik ne bi trebao biti veći od $500\quad \textrm{k}\Omega$ kako bi vrijednost struje koja teče u FB stezaljku bila što bliže $0.01 \quad \mu \textrm{A}$ \cite{ti:tlv61220}.
-Efikasnost za izlazne struje od 1 mA do 50 mA je skoro ista na ulaznom naponu u rasponu baterije i može se uzeti efikasnost od 90 \% \ref{slk:BOOST_EFF}. Uz minimalni ulazni napond od 3V, potrošnja, prema jednadžbi \ref{eq:IN_CURR} iznosi 75 mA.
-\begin{figure}[htb]
+Zavojnica je odabrana prema preporukama proizvođača, a naponsko djelilo je proračunato imajući na umu da donji otpornik ne bi trebao biti veći od $500\textrm{ k}\Omega$ kako bi vrijednost struje koja teče u FB stezaljku bila što bliže 0.01 $\mu\textrm{A}$ \cite{ti:tlv61220}. Efikasnost za izlazne struje od 1 mA do 50 mA je skoro ista na ulaznom naponu u rasponu baterije i može se uzeti efikasnost od 90 \% (\ref{slk:BOOST_EFF}). Uz minimalni ulazni napon od 3 V, potrošnja, prema jednadžbi \ref{eq:IN_CURR} iznosi 75 mA.
+\begin{figure}[H]
     \centering
-    \includegraphics[width=8 cm]{Figures/BOOST_EFF.png}
+    \includegraphics[width=6 cm]{Figures/BOOST_EFF.png}
     \caption{Efikasnost regulatora \cite{ti:tlv61220}}
     \label{slk:BOOST_EFF}
 \end{figure}
 
 \section{Baterija i punjač baterije}
 \label{sec:BR_BATCHG}
-Uzevši u obzir potršnju svih podsustava ukupna struja koju punjač mora moći dati je 426.12 mA. Uz struju punjenja baterije od 1 A i uzevši u obzir jednadžbe \ref{eq:IN_CURR} i \ref{eq:IN_CURR_MAX} ukupna struja koju USB sučelje mora moći dati iznosi 1.08 A, dakle uzet će se ograničenje na ulaznu struju od 1.5 A. Uvijeti su, dakle, veoma slični onima kao kod glavne ploče.
+Uzevši u obzir potrošnju svih podsustava ukupna struja koju punjač mora moći dati je 426.12 mA. Uz struju punjenja baterije od 1 A i uzevši u obzir jednadžbe \ref{eq:IN_CURR} i \ref{eq:IN_CURR_MAX} ukupna struja koju USB sučelje mora moći dati iznosi 1.08 A, dakle uzet će se ograničenje na ulaznu struju od 1.5 A. Uvjeti su, dakle, veoma slični onima kao kod glavne ploče.
 
 \subsection{Punjač baterije}
-Shema punjača narukvice na slici \ref{slk:BR_BATCHG} veoma je slična shemi sa slike \ref{slk:MB_BATCHG}. Promijenjena je svjetleća dioda za indikaciju punjenja u žutu, kako bi se jasnije mogla razlikovati indikacija između indikacije punjenja i indikacije statusa dobrog napajanja. Također su dodani veći otpornici u seriju sa diodama jer je svjetlina bila prevelika.
-
-Još jedna razlika je u priteznim otpornicima na konfiguracijskim linijama za ograničenje struje USB-a, ovdje je ograničenje uvijek 1.5 A jer nema potrebe za drugačijim postavkama i postoji ograničenje na veličinu pločice. S obzirom na ograničenje na veličinu pločice ovdje je odabrana zavojnica od 1.5 $\mu \textrm{H}$.
-\begin{figure}[htb]
+Shema punjača narukvice na slici \ref{slk:BR_BATCHG} veoma je slična shemi sa slike \ref{slk:MB_BATCHG}. Promijenjena je svjetleća dioda za indikaciju punjenja u žutu, kako bi se jasnije mogla razlikovati indikacija između indikacije punjenja i indikacije statusa dobrog napajanja. Također su dodani veći otpornici u seriju s diodama jer je svjetlina bila prevelika.
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Figures/BR_BATCHG.png}
     \caption{Shema punjača baterije na narukvici}
     \label{slk:BR_BATCHG}
 \end{figure}
 
-Zadnja razlika je vrlo subtilna, ali veoma ključna za ispravan rad punjača. Pogledom na shemu na slici \ref{slk:MB_BATCHG} vidljivo je da stezaljka TS nije nigdje spojena, odnosno ,,pluta''. Ova stezaljka služi za mjerenje temperature baterije tijekom punjenja. Ako je temperatura prevelika ili premala punjenje se zaustavlja. Shema mjerenja prikazana je na slici \ref{slk:BATCHG_TS}. Mjeri se napon na naponskom djelilu kojega čine otpornici i NTC termistor. Naponi na kojima se zaštita aktivira iznose 30\% i 60\% napona na stezaljci DRV, dakle 1.56 V i 3.12 V. S obzirom da stezaljka TS ,,pluta'', napon na stezaljci je manji od donjega praga i punjenje ne radi. Kako bi se mjerenje temperature onemogućilo napon na TS stezaljci mora biti veći od 70\% napona na stezaljci DRV. Iz tog razloga proizvođač preporuča kratko spajanje stezaljka TS i DRV kako bi punjenje cijelo vrijeme bilo omogućeno.
+Još jedna razlika je u priteznim otpornicima na konfiguracijskim linijama za ograničenje struje USB-a, ovdje je ograničenje uvijek 1.5 A jer nema potrebe za drugačijim postavkama i postoji ograničenje na veličinu pločice. S obzirom na ograničenje na veličinu pločice ovdje je odabrana zavojnica od 1.5 $\mu \textrm{H}$.
+
+Zadnja razlika je vrlo suptilna, ali veoma ključna za ispravan rad punjača. Pogledom na shemu na slici \ref{slk:MB_BATCHG} vidljivo je da stezaljka TS nije nigdje spojena, odnosno ,,pluta''. Ova stezaljka služi za mjerenje temperature baterije tijekom punjenja. Ako je temperatura prevelika ili premala punjenje se zaustavlja. Shema mjerenja prikazana je na slici \ref{slk:BATCHG_TS}. Mjeri se napon na naponskom djelilu kojega čine otpornici i NTC termistor. Naponi na kojima se zaštita aktivira iznose 30\% i 60\% napona na stezaljci DRV, dakle 1.56 V i 3.12 V. S obzirom na to da stezaljka TS ,,pluta'', napon na stezaljci je manji od donjega praga i punjenje ne radi. Kako bi se mjerenje temperature onemogućilo napon na TS stezaljci mora biti veći od 70\% napona na stezaljci DRV. Iz tog razloga proizvođač preporučuje kratko spajanje stezaljka TS i DRV kako bi punjenje cijelo vrijeme bilo omogućeno.
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=6 cm]{Figures/BATCHG_TS.png}
+    \includegraphics[width=10 cm]{Figures/BATCHG_TS.png}
     \caption{Mjerenje temprature senzora}
     \label{slk:BATCHG_TS}
 \end{figure}
 
 \subsection{Baterijska zaštita}
-\sloppy Shema baterijske zaštite na narukvici je prikazana na slici \ref{slk:BR_BATPROT}. Shema je slična onoj sa glavne ploče na slici \ref{slk:MB_BATPROT}, a ovdje su tranzistori pažljivije odabrani. Maksimalna struja pražnjenja iznosi, prema \ref{sec:BR_BATCHG}, iznosi 426.12 mA. Za aktivaciju zaštite uzet će se struja od $I_{OCD}=1.5\quad \textrm{A}$, dakle otpor obaju FET-ova prema jednadžbi \ref{eq:TRANCUR} iznosi ${2R_{DS(on)}=66.67\quad \textrm{m}\Omega}$. Na temelju toga, struja na kojoj će se aktivirati zaštita za punjenje iznosi $I_{OCC}=1.5\quad \textrm{A}$. Dakle, tranzistor treba imati otpor $R_{DS(on)}=33.33\quad \textrm{m}\Omega$. Struja na kojoj će se aktivirati zaštita od kratkog spoja iznosi $I_{SCD}=7.5\quad \textrm{A}$, tako da tranzistor mora moći podnijeti tu struju. Prikaz promjene otpora u ovisnosti o naponu i struji odabranog tranzistora prikazana je na slici \ref{slk:RDS_NEW}. Vidljivo je da će otpor biti veći sa većom strujom, što znači da će se zaštita aktivirati nešto prije vrijednosti proračunatih pragova, a opet se neće aktivirati prerano da se onemogući punjenje, što je i poželjno sa perspektive sigurnosti.
+\sloppy Shema baterijske zaštite na narukvici je prikazana na slici \ref{slk:BR_BATPROT}. Shema je slična onoj s glavne ploče na slici \ref{slk:MB_BATPROT}, a ovdje su tranzistori pažljivije odabrani. Maksimalna struja pražnjenja iznosi, prema \ref{sec:BR_BATCHG}, iznosi 426.12 mA. Za aktivaciju zaštite uzet će se struja od $I_{OCD}=1.5\textrm{ A}$, dakle otpor obaju FET-ova prema jednadžbi \ref{eq:TRANCUR} iznosi ${2R_{DS(on)}=66.67\textrm{ m}\Omega}$. Na temelju toga, struja na kojoj će se aktivirati zaštita za punjenje iznosi $I_{OCC}=1.5\textrm{ A}$. Dakle, tranzistor treba imati otpor $R_{DS(on)}=33.33\textrm{ m}\Omega$. Struja na kojoj će se aktivirati zaštita od kratkog spoja iznosi $I_{SCD}=7.5\textrm{ A}$, tako da tranzistor mora moći podnijeti tu struju. Prikaz promjene otpora u ovisnosti o naponu i struji odabranog tranzistora prikazana je na slici \ref{slk:RDS_NEW}. Vidljivo je da će otpor biti veći s većom strujom, što znači da će se zaštita aktivirati nešto prije vrijednosti proračunatih pragova, a opet se neće aktivirati prerano da se onemogući punjenje, što je i poželjno s perspektive sigurnosti.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=10 cm]{Figures/BR_BATPROT.png}
@@ -141,13 +140,13 @@ Zadnja razlika je vrlo subtilna, ali veoma ključna za ispravan rad punjača. Po
 \end{figure}
 Očito je da je ovo bolje projektirana zaštita u odnosu na onu na glavnoj ploči.
 
-Ovdje su još dodani i otpori između upravljačke elektrode i uvoda tranzistora koji služe za bolje izbijanje naboja na kapacitetu između upravljačle elektrode i uvoda tranzistora \cite{ti:bq29700}.
+Ovdje su još dodani i otpori između upravljačke elektrode i uvoda tranzistora koji služe za bolje izbijanje naboja na kapacitetu između upravljačke elektrode i uvoda tranzistora \cite{ti:bq29700}.
 
 \section{USB napajanje}
 \label{sec:BR_USB}
 Shema USB napajanja narukvice prikazana je na slici \ref{slk:BR_USB}. Dodan je pritezni otpornik R102 koji osigurava da ne dolazi do smanjenja napona na uvodu tranzistora Q101B radi diode u tranzistoru Q101A. Dodana je i Zener dioda od 10 V koja služi za zaštitu od prevelikog napona.
 
-Osim toga, naponska djelila koja služe za podešavanje struje i napona USB-a se sada napajaju sa internog regulatora čipa. Kod središnjeg uređaja (slika \ref{slk:MB_USB}) su se napajala sa regulatora od 3.3 V koji se nalazi na pločici, što je u redu dok god je prikopčana puna baterija. Međutim, u slučaju prazne ili iskopčane baterije dolazi do problema, jer je sada sustav ostao bez napajanja i ne mogu se podesiti naponi i struje USB-a. To je veoma grub previd i ispravljen je na ovaj način, što je i preporuka proizvođača.
+Osim toga, naponska djelila koja služe za podešavanje struje i napona USB-a se sada napajaju s internog regulatora čipa. Kod središnjeg uređaja (slika \ref{slk:MB_USB}) su se napajala s regulatora od 3.3 V koji se nalazi na pločici, što je u redu dok god je prikopčana puna baterija. Međutim, u slučaju prazne ili iskopčane baterije dolazi do problema, jer je sada sustav ostao bez napajanja i ne mogu se podesiti naponi i struje USB-a. To je veoma grub previd i ispravljen je na ovaj način, što je i preporuka proizvođača.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{Figures/BR_USB.png}
@@ -157,9 +156,9 @@ Osim toga, naponska djelila koja služe za podešavanje struje i napona USB-a se
 \section{PCB}
 Tijekom projektiranja PCB osim što je bilo potrebno paziti na iste probleme kao i kod glavne ploče, bilo je potrebno paziti na ograničenje prostora i dvostranu montažu. Na slikama \ref{slk:BR_PCB_TOP} i \ref{slk:BR_PCB_BOT} prikazan je 3D prikaz projektiranje pločice.
 
-Za razliku od glavne ploče, ovdje je podsustav za bežičnu komunikaciju postavljen tako da se antena nalazi u potpunosti izvan pločice. Na taj način podsustav će bolje primati signale i stvarati manje smetnje na pločicu tijekom slanja signala.
+Za razliku od glavne ploče, ovdje je podsustav za bežičnu komunikaciju postavljen tako da se antena nalazi u potpunosti izvan pločice. Tako će podsustav bolje primati signale i stvarati manje smetnje na pločicu tijekom slanja signala.
 
-Ideja je da se PPG senzor nalazi na dijelu narukvice koja ostvaruje kontakt s kožom, pa je radi toga potrebno bilo postaviti senzor na donji sloj pličice (slika \ref{slk:BR_PCB_BOT}).
+Ideja je da se PPG senzor nalazi na dijelu narukvice koja ostvaruje kontakt s kožom, pa je radi toga potrebno bilo postaviti senzor na donji sloj pločice (slika \ref{slk:BR_PCB_BOT}).
 
 Radi ograničenja prostora maknute su sve testne točke i kratkospojnici.
 \begin{figure}[htb]

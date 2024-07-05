@@ -134,7 +134,7 @@ Napravljena je tablica potrošnje za sustave koji se napajaju sa 3.3 V (tablica 
 \end{table}%
 Na temelju ovih podataka se može odrediti za koliku snagu napajanje mora biti projektirano. Maksimalna struja je manja od 1 A, a uređaj nikada neće dostići toliku razinu potrošnje jer se neće koristiti sve mogućnosti največih potrošača (mikrokontroler i bežična komunikacija). S obzirom na to da korisnik neće cijelo vrijeme pričati sustav će ući u mirovanje, a prosječna struja će onda biti još manja. Imajući na umu sve navedeno, procjenjuje se da će baterija od kapaciteta 2 Ah biti više nego dovoljna. Sada je moguće odabrati prikladne komponente za napajanje.
 
-\section{Baterija i punjač baterije}
+\subsection{Baterija i punjač baterije}
 Za punjač baterije odabran je BQ24166 proizvođača Texas Instruments (slika \ref{slk:BQ24166}). Ovaj integrirani krug u sebi ima integriran sustav za upravljanje tokom snage \cite{ti:bq24166}. BQ24166 se može napajati s dva ulaza; ulaz za USB ili ulaz za druge vrste napajanja (AC/DC adapter, DC laboratorijski izvor napajanja, itd.), a da pritom u isto vrijeme puni bateriju i na svom izlazu daje napon baterije, s tim da izlazni napon neće pasti ispod 3.5 V. U tu svrhu u čip je ugrađen silazni prekidački regulator napona, kako bi se kod punjenja baterije konstantnim naponom dobio izlazni napon od 4.2 V potreban za punjenje. Ako na ulaz čipa nije spojeno ništa, onda se na izlaz direktno prosljeđuje napon baterije. U slučaju da napon baterije padne ispod 3.5 V, a da pritom ništa nije spojeno na ulaz čipa, izlazni napon se regulira na 3.5 V, čime se baterija može u potpunosti iskoristiti. Ovaj čip također ima ugrađene zaštite od prednapona, a jednim otpornikom moguće je i programirati prekostrujnu zaštitu. Također je jednim otpornikom moguće i programirati maksimalnu struju punjenja baterije.
 \begin{figure}[!hbt]
     \centering
@@ -213,7 +213,7 @@ Imajući na umu da će do maksimalne potrošnje doći rijetko, ako uopće, i či
 \end{equation}
 Dodajući malo sigurnosne margine, za prekostrujnu zaštitu se onda uzima 1.5 A. Za potrebe testiranja i otklanjanje evenutalnih grešaka na ulaz linearnog regulatora dodan je kratkospojnik.
 
-\section{Baterijska zaštita}
+\subsection{Baterijska zaštita}
 S obzirom na mnoge opasnosti koje litij-ionske baterije nude, potrebno je dizajnirati prikladnu zaštitu za bateriju. U tu svrhu odabran je BQ29700 proizvođača Texas Instruments, prikazan na slici \ref{slk:BQ29700}. Ovaj integrirani krug ima zaštitu baterije od preniskog i previsokog napona, prejake struje pražnjenja i punjenja i kratkog spoja. Shema sklopa za zaštitu baterije prikazana je na slici \ref{slk:MB_BATPROT}.
 \begin{figure}[hbt]
     \centering
@@ -289,14 +289,18 @@ Korisnik obično ne razmišlja na koju verziju sučelja spaja svoj uređaj, mogu
     \caption{Prikaz načina rada CC linija \cite{ti:usb}}
     \label{slk:USB_CC_LINES}
 \end{figure}
-Radi toga je potrebno projektirati sklopovlje koje može ispregovarati snagu koju izvor može dati kako ne bi došlo do neželjenog ponašanja. Postoji niz integriranih krugova koji to mogu napraviti, a ovdje je odabran CYPD3177 tvrtke Cypress Technologies. Shema USB napajanja prikazana je na slici \ref{slk:MB_USB}. Ovaj integrirani krug u sebi ima niz priteznih otpornika na stezaljkama CC1 i CC2 koje su spojene direktno na USB konektor. Struja i napon koju će čip zahtijevati namještaju se naponskim djelilima preko stezaljki ISNK\_COARSE, ISNK\_FINE, VBUS\_MIN i VBUS\_MAX. Vrijednosti otpornika na shemi odabrane su prema savjetima proizvođača \cite{ct:usb}. U ovom slučaju napon koji će se tražiti iznosi 5 V, a struja 1.5 A. Na temelju toga čip postavlja prikladne vrijednosti otpora na CC linije. Ako izvor može dati zahtijevanu snagu čip postavlja stezaljki VBUS\_FET\_EN u visoku razinu, čiji je napon u visokom stanju jednak naponu koji se nalazi na USB priključku. Na taj se način uključuje vanjski P-MOSFET koji prosljeđuje napajanje s USB priključka. Otpori i kondenzatori okolo tranzistora služe s usporavanje rasta napona, čime se izbjegavaju neugodne tranzijentne pojave. Za indikaciju neuspješnog dogovora između izvora i uređaja služi crvena svjetleća dioda D201. Za svrhe testiranja i otklanjanja grešaka predviđeni su kratkospojnici kojima se može odvojiti i preskočiti ovaj dio sklopovlja. U tom slučaju potrebno je zalemiti otpornike R204 i R203 u vrijednosti od 5.1 k$\Omega$, čime se traži snaga od 15 W (5 V, 3 A).
-\begin{sidewaysfigure}[htbp!]
-    \centering
-    \includegraphics[width=1\textwidth]{Figures/MB_USB.png}
-    \caption{Shema USB napajanja}
-    \label{slk:MB_USB}
-\end{sidewaysfigure}
-\pagebreak
+
+Radi toga je potrebno projektirati sklopovlje koje će moći zatražiti snagu od izvora, a koje će potom uključiti USB napajanje ako izvor može dati tu snagu, odnosno držati isključenim ako ne može. Postoji niz integriranih krugova koji to mogu napraviti, a ovdje je odabran CYPD3177 tvrtke Cypress Technologies. Shema USB napajanja prikazana je na slici \ref{slk:MB_USB}. Ovaj integrirani krug u sebi ima niz priteznih otpornika na stezaljkama CC1 i CC2 koje su spojene direktno na USB konektor. Struja i napon koju će čip zahtijevati namještaju se naponskim djelilima preko priključaka ISNK\_COARSE, ISNK\_FINE, VBUS\_MIN i VBUS\_MAX. Vrijednosti otpornika na shemi odabrane su prema savjetima proizvođača \cite{ct:usb}. U ovom slučaju napon koji će se tražiti iznosi 5 V, a struja 1.5 A. Na temelju toga čip postavlja prikladne vrijednosti otpora na CC linije. Ako izvor može dati zahtijevanu snagu čip postavlja stezaljki VBUS\_FET\_EN u visoku razinu, čiji je napon u visokom stanju jednak naponu koji se nalazi na USB priključku. Na taj se način uključuje vanjski P-MOSFET koji prosljeđuje napajanje s USB priključka. Otpori i kondenzatori oko tranzistora služe za usporavanje rasta napona, čime se izbjegavaju neugodne tranzijentne pojave. Za indikaciju neuspješnog dogovora između izvora i uređaja služi crvena svjetleća dioda D201. Za svrhe testiranja i otklanjanja grešaka predviđeni su kratkospojnici kojima se može odvojiti i preskočiti ovaj dio sklopovlja. U tom slučaju potrebno je zalemiti otpornike R204 i R203 u vrijednosti od 5.1 k$\Omega$, čime se traži snaga od 15 W (5 V, 3 A).
+\begin{center}
+    \begin{sideways}
+        \begin{minipage}{1.4\linewidth}
+            \includegraphics[width=\linewidth]{Figures/MB_USB.png}
+            \captionof{figure}{Shema USB napajanja}
+            \label{slk:MB_USB}
+        \end{minipage}
+    \end{sideways}
+\end{center}
+
 \section{PCB}
 Raspored slojeva tiskane pločice prikazan je na slici \ref{slk:MB_BOARD_STACKUP}. Oba unutarnja sloja su ravnine za uzemljenje kako bi se što bolje očuvao integritet signala na gornjem i donjem sloju. Ova konfiguracija je preuzeta sa web stranice proizvođača pločice JLCPCB.
 \begin{figure}[htb]
