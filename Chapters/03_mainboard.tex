@@ -1,10 +1,8 @@
 \chapter{Središnji uređaj}
 \label{pog:mainboard}
 
-Središnji uređaj će biti veći od narukvice, jer narukvica mora zauzimati što manje prostora na ruci korisnika, dok se središnji uređaj može zakačiti na odjeću korisnika. Unatoč tome središnji uređaj mora i dalje biti što manjih dimenzija kako bi što manje smetao korisniku. Radi toga će središnji uređaj sadržavati mnogo testnih točaka i kratkospojnika kako bi se on mogao detaljno ispitati, na temelju čega će kasnije biti izrađena narukvica. U daljnjem tekstu ovog poglavlja opisane su odabrane komponente, kao i razlog njihova odabira, način, razlozi i proračuni dizajna pojedinih podsustava, te dizajn, proizvodnja i testiranje PCB-a.
-
 \section{Mikrokontroler}
-Odabran je mikrokontroler STM32F746VG baziran na Cortex-M7 arhitekturi koji integrira funkcionalnosti digitalne obrade signala, sadrži sve potrebne periferije za integriranje s ostatkom sustava i dovoljno procesorske snage za obavljanje zadanog zadatka. Također, programska potpora je razvijena na razvojnom sustavu NUCLEO-F746ZG, pa je ovaj mikrokontroler odabran radi lakšeg razvoja cjelokupnog sustava. Shema napajanja mikrokontrolera prikazana je na slici \ref{slk:MCU_PS}, a shema spajanja mikrokontrolera s ostatkom sustava prikazana je na slici \ref{slk:MCU_PE}.
+\sloppy Kao glavna procesorska jedinica središnjeg uređaja odabran je mikrokontroler STM32F746VG temeljen na Cortex-M7 arhitekturi koji integrira funkcionalnosti digitalne obrade signala, sadrži sve potrebne periferije za integriranje s ostatkom sustava i ima dovoljno procesorske snage za obavljanje zadataka, primarno za izvođenje razmjerno zahtjevne neuronske mreže. Također, s obzirom da je programska potpora u okviru drugog rada razvijena koristeći razvojni sustav NUCLEO-F746ZG, spomenuti mikrokontroler odabran je radi kompatibilnosti s razvijenom programskom potporom. Shema napajanja mikrokontrolera prikazana je na slici \ref{slk:MCU_PS}, a shema spajanja mikrokontrolera s ostatkom sustava prikazana je na slici \ref{slk:MCU_PE}.
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=10 cm]{Figures/MCU_02.png}
@@ -12,14 +10,14 @@ Odabran je mikrokontroler STM32F746VG baziran na Cortex-M7 arhitekturi koji inte
     \label{slk:MCU_PS}
 \end{figure}
 
-Shema napajanja napravljena je prema uputama proizvođača \cite{stmicroelectronics:an4661}. S obzirom na to da na ovoj ploči nema analognih signala, nije potrebno raditi analogno-digitalnu pretvorbu, pa su stezaljke za napajanje analognog dijela mikrokontrolera spojene sa stezaljkama za napajanje digitalnog dijela. Također, nije potrebna precizna naponska referenca, a baterijskim napajanjem će upravljati vanjski čip, pa su te dvije stezaljke spojene na napajanje od +3.3 V.
+Shema napajanja napravljena je prema uputama proizvođača \cite{stmicroelectronics:an4661}. S obzirom da na ovoj ploči nema analognih signala, nije potrebno raditi analogno-digitalnu pretvorbu pa su stezaljke za napajanje analognog dijela mikrokontrolera spojene sa stezaljkama za napajanje digitalnog dijela. Također, nije potrebna precizna naponska referenca, a baterijskim napajanjem će upravljati vanjski integrirani sklop pa su te dvije stezaljke spojene na napajanje od +3,3 V.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Figures/MCU_01.png}
     \caption{Shema periferije mikrokontrolera}
     \label{slk:MCU_PE}
 \end{figure}
-Postavljene su dvije svjetleće diode za pomoć pri programiranju i tipka za reset mikrokontrolera. Kod određivanja potrebnih priključaka za pomoć je korišteno razvojno okruženje STM32CubeIDE. Dizajn oscilatora opisan je u priručniku proizvođača STMicroelectronics \cite{stmicroelectronics:an2867}. Oscilator koji mikrokontroler koristi je Pierceov oscilator (slika \ref{slk:PIERCE}).
+Postavljene su dvije svjetleće diode za pomoć pri programiranju i tipka za reset mikrokontrolera. Kod određivanja potrebnih priključaka za referencu je korišteno razvojno okruženje STM32CubeIDE. Dizajn oscilatora opisan je u priručniku proizvođača STMicroelectronics \cite{stmicroelectronics:an2867}. Oscilator koji mikrokontroler koristi je Pierceov oscilator (slika \ref{slk:PIERCE}).
 \begin{figure}[hbt]
     \centering
     \includegraphics[width=10cm]{Figures/pierce.PNG}
@@ -28,11 +26,11 @@ Postavljene su dvije svjetleće diode za pomoć pri programiranju i tipka za res
 \end{figure}
 
 \subsection{Pierceov oscilator}
-Pierceov oscilator se sastoji od invertera \textit{Inv}, koji radi kao pojačalo, kristala \textit{Q}, otpornika u povratnoj vezi \textit{R\textsubscript{F}}, vanjskog otpornika za ograničenje izlazne struje invertera \textit{R\textsubscript{Ext}}, vanjskih kapaciteta opterećenja \textit{C\textsubscript{L1}} i \textit{C\textsubscript{L2}}, parazitskog kapaciteta PCB-a i kapaciteta između stezaljki mikrokontrolera \textit{C\textsubscript{s}}.
+Pierceov oscilator se sastoji od invertera \textit{Inv}, koji radi kao pojačalo, kristala \textit{Q}, otpornika u povratnoj vezi \textit{R\textsubscript{F}}, vanjskog otpornika za ograničenje izlazne struje invertera \textit{R\textsubscript{Ext}}, vanjskog opteretnog kapaciteta \textit{C\textsubscript{L1}} i \textit{C\textsubscript{L2}}, parazitskog kapaciteta tiskane pločice i kapaciteta između stezaljki mikrokontrolera \textit{C\textsubscript{s}}.
 
-Uloga otpornika \textit{R\textsubscript{F}} je da natjera inverter da se ponaša poput pojačala. Otpornik povratne veze je spojen između izlaza i ulaza pojačala čime se ulaz i izlaz drže na istom naponu i osigurava se da pojačalo radi u linearnom području rada. Ovaj otpornik je integriran u mikrokontroleru zajedno s pojačalom.
+Uloga otpornika \textit{R\textsubscript{F}} je da inverter dovede u način rada kada se ponaša poput pojačala. Otpornik povratne veze je spojen između izlaza i ulaza pojačala čime se ulaz i izlaz drže na istom naponu i osigurava se da pojačalo radi u linearnom području rada. Ovaj otpornik je integriran u mikrokontroleru zajedno s pojačalom.
 
-Kapacitet opterećenja je ukupni kapacitet povratne veze oscilatora i mora biti jednak je kapacitetu između stezaljki kristala kako bi oscilator prooscilirao. Kapacitet opterećenja specificira proizvođač kristala i označava se s \textit{C\textsubscript{L}}. Vanjskim kondenzatorima \textit{C\textsubscript{L1}} i \textit{C\textsubscript{L2}} se postavlja kapacitet opterećenja povratne veze kako bi odgovarao kapacitetu opterećenja kristala. Kapacitet opterećenja računa se prema sljedećoj jednadžbi:
+Opteretni kapacitet je ukupni kapacitet povratne veze oscilatora i mora biti jednak je kapacitetu između stezaljki kristala kako bi oscilator prooscilirao. Opteretni kapacitet specificira proizvođač kristala i označava se s \textit{C\textsubscript{L}}. Vanjskim kondenzatorima \textit{C\textsubscript{L1}} i \textit{C\textsubscript{L2}} se postavlja opteretni kapacitet povratne veze kako bi odgovarao opteretnom kapacitetu kristala. Opteretni kapacitet se računa prema sljedećoj jednadžbi:
 \begin{equation} \label{eq:CLOAD}
     C_L=\frac{C_{L1}\cdot C_{L2}}{C_{L1}+C_{L2}}+C_s
 \end{equation}
@@ -46,7 +44,7 @@ gdje je \textit{f} frekvencija oscilatora, \textit{ESR} serijski otpor kristala 
     {gain}_{margin}=\frac{g_m}{g_{mcrit}}>5
 \end{equation}
 
-Kako ne bi došlo do kvara kristala potrebno je ograničiti snagu koja se na njemu disipira s pomoću vanjskog otpornika \textit{R\textsubscript{Ext}}. Maksimalna snaga koja se može disipirati na kristalu naznačena je u dokumentaciji proizvođača. Ovaj otpornik s kondenzatorom \textit{C\textsubscript{L2}} formira niskopropusni filtar kako bi oscilator proradio na osnovnoj frekvenciji, a ne na višim harmonicima. Ako snaga disipirana na kristalu bude veća od maksimalne dozvoljene onda je vanjski otpornik obavezan i mora se proračunati, u suprotnom ga nije potrebno stavljati. Vrijednost otpornika se računa na sljedeći način:
+Kako ne bi došlo do kvara kristala potrebno je ograničiti snagu koja se na njemu disipira s pomoću vanjskog otpornika \textit{R\textsubscript{Ext}}. Maksimalna snaga koja se može disipirati na kristalu naznačena je u dokumentaciji proizvođača. Ovaj otpornik s kondenzatorom \textit{C\textsubscript{L2}} formira niskopropusni filtar kako bi oscilator proradio na osnovnoj frekvenciji, a ne na višim harmonicima. Ako snaga disipirana na kristalu bude veća od maksimalne dozvoljene, onda je vanjski otpornik obavezan i mora se proračunati, u suprotnom ga nije potrebno stavljati. Vrijednost otpornika se računa na sljedeći način:
 \begin{equation} \label{eq:REXT}
     R_{Ext}=\frac{1}{2\pi f C_{L2}}
 \end{equation}
@@ -59,18 +57,18 @@ Oscilator je vidljiv na slici \ref{slk:MCU_PE}. Odabran je kristal NX8045GB proi
     \item \textit{ESR} = 200 $\Omega$
     \item \textit{f} = 8 MHz
 \end{itemize}
-\textit{C\textsubscript{0}} nije naznačen pa se uzima vrijednost 0. Uzimajući za parazitni kapacitet \textit{C\textsubscript{s}} = 2 pF, i koristeći formulu \ref{eq:CLOAD} dobiju se vrijednosti kondenzatora \textit{C\textsubscript{L1}} = \textit{C\textsubscript{L2}} = 12 pF. Odabir parazitnog kapaciteta je odokativan jer se ne može znati unaprijed bez mjerenja dovršene tiskane pločice. Kod odabira kondenzatora potrebno je obratiti pažnju na dielektrik kondenzatora i tolerancije. Kako bi frekvencija oscilatora bila što stabilnija potrebno je koristiti temperaturno stabilan dielektrik, odnosno kondenzatore klase 1. Korišteni kondenzatori imaju C0G dielektrik. Koristeći jednadžbu \ref{eq:GMCRIT} dobiva se ${g_{mcrit} = 0.1294 \quad \textrm{mA/V}}$. Iz dokumentacije mikrokontrolera se dobiva ${g_m = 1\quad \textrm{mA/V}}$. Iz uvjeta \ref{eq:GMARGIN} dobiva se ${{gain}_{margin}=\nolinebreak 7.73}$, čime je uvjet zadovoljen. S obzirom na to da nije moguće odrediti koliko će se kristal grijati, za vanjski otpornik postavljen je otpornik vrijednosti 0 $\Omega$, pa u slučaju prevelike disipacije snage na kristalu moguće je na njegovo mjesto zalemiti otpornik odgovarajuće vrijednosti prema jednadžbi \ref{eq:REXT}.
+\textit{C\textsubscript{0}} nije naznačen pa se uzima vrijednost 0. Uzimajući za parazitni kapacitet \textit{C\textsubscript{s}} = 2 pF i koristeći formulu \ref{eq:CLOAD} dobiju se vrijednosti kondenzatora \textit{C\textsubscript{L1}} = \textit{C\textsubscript{L2}} = 12 pF. Odabir parazitnog kapaciteta je približan jer se ne može znati unaprijed bez mjerenja dovršene tiskane pločice. Kod odabira kondenzatora potrebno je obratiti pažnju na dielektrik kondenzatora i tolerancije. Kako bi frekvencija oscilatora bila što stabilnija, potrebno je koristiti temperaturno stabilan dielektrik, odnosno kondenzatore klase 1. Korišteni kondenzatori imaju C0G dielektrik. Koristeći jednadžbu \ref{eq:GMCRIT} dobiva se ${g_{mcrit} = 0,1294 \quad \textrm{mA/V}}$. Iz dokumentacije mikrokontrolera se dobiva ${g_m = 1\quad \textrm{mA/V}}$. Iz uvjeta \ref{eq:GMARGIN} dobiva se ${{gain}_{margin}=\nolinebreak 7,73}$, čime je uvjet zadovoljen. S obzirom da nije moguće odrediti koliko će se kristal grijati, za vanjski otpornik postavljen je otpornik vrijednosti 0 $\Omega$ pa u slučaju prevelike disipacije snage na kristalu moguće je na njegovo mjesto zalemiti otpornik odgovarajuće vrijednosti prema jednadžbi \ref{eq:REXT}.
 
-\section{RTC}
+\section{Sat realnog vremena (RTC)}
 
-S obzirom na to da uređaj treba uskladiti podatke s mikrofona i narukvice potrebno je precizno praćenje vremena. U tu svrhu dodan je vanjski RTC PCF8653 proizvođača NXP \cite{nxp:pcf8654}. Za ovaj čip postoji već razvijena programska podrška u ZephyrOS operacijskom sustavu za rad u stvarnom vremenu, pa je razvoj programske potpore za uređaj znatno olakšan. Shema RTC-a prikazana je na slici \ref{slk:RTC}.
+S obzirom da uređaj treba uskladiti podatke s mikrofona i narukvice, potrebno je precizno praćenje vremena. U tu svrhu dodan je vanjski RTC PCF8653 proizvođača NXP \cite{nxp:pcf8654}. Za ovaj integrirani sklop postoji već razvijena programska podrška u ZephyrOS operacijskom sustavu za rad u stvarnom vremenu, pa je razvoj programske potpore za uređaj znatno olakšan. Shema RTC-a prikazana je na slici \ref{slk:RTC}.
 \begin{figure}[hbt]
     \centering
     \includegraphics[width=10 cm]{Figures/RTC.png}
     \caption{Shema RTC-a}
     \label{slk:RTC}
 \end{figure}
-S obzirom na to da se litij-ionska baterija, koja napaja cijeli uređaj, može isprazniti, otkopčati ili na neki drugi način se može prekinuti napajanje s vanjske baterije, RTC se napaja iz litijske baterije kako praćenje vremena ne bi bilo izgubljeno. S obzirom na to da je napon litijske baterije 3 V, a napon ostatka sustava 3.3 V, na I\textsuperscript{2}C linije dodane su Zener diode s probojnim naponom od 2.7 V, čime se maksimalni napon ograničava kako ne bi došlo do oštećenja čipa tijekom komunikacije s mikrokontrolerom.
+S obzirom da se litij-ionska baterija, koja napaja cijeli uređaj, može isprazniti, otkopčati ili na neki drugi način se može prekinuti napajanje s vanjske baterije, RTC se napaja iz litijske baterije kako praćenje vremena ne bi bilo izgubljeno. S obzirom da je napon litijske baterije 3 V, a napon ostatka sustava 3,3 V, na I\textsuperscript{2}C linije dodane su Zener diode s probojnim naponom od 2,7 V, čime se maksimalni napon ograničava kako ne bi došlo do oštećenja integriranog tijekom komunikacije s mikrokontrolerom.
 
 \section{Bežična komunikacija}
 Shema podsustava za bežičnu komunikaciju prikazana je na slici \ref{slk:WIFI}. Radi lakšeg razvoja odabran je razvojni sustav ESP32-C3-WROOM-02 proizvođača Espressif Systems. Shema je razvijena prema preporukama proizvođača \cite{espressif:wroom02}. Dodan je još jedan kratkospojnik za ispitivanje funkcionalnosti reseta sustava.
@@ -82,7 +80,7 @@ Shema podsustava za bežičnu komunikaciju prikazana je na slici \ref{slk:WIFI}.
 \end{figure}
 
 \section{SD kartica i konektori}
-Za pohranu podataka na uređaju se nalazi SD kartica standardne veličine. Razlog odabira ove veličine jest taj da uređaj onda podržava i standardnu SD karticu i adapter za SD kartice manje veličine. Shema SD konektora prikazana je na slici \ref{slk:SD}. Konektor ima ESD zaštitu u obliku diode D401 i filtriranje napajanja preko mreže koja se sastoji od kondenzatora i feritne perle. Na svim komunikacijskim linijama se nalaze pritezni otpornici, a linija za takt ima terminacijski otpor od 49.9 $\Omega$ kako bi se suzbila refleksija. Kako CD stezaljka za detekciju spojene kartice ne bi ostala plutajuća dodan je pritezni otpornik od 1 M$\Omega$. Razlog odabira tako velikog otpora je unutarnji pritezni otpornik prema napajanju na SD karticama, pa se velikim otporom suzbija efekt naponskog djelila.
+Za pohranu podataka na uređaju se nalazi SD kartica standardne veličine. Razlog odabira ove veličine jest taj da uređaj onda podržava i standardnu SD karticu i adapter za SD kartice manje veličine. Shema SD konektora prikazana je na slici \ref{slk:SD}. Konektor ima ESD zaštitu u obliku diode D401 i filtriranje napajanja preko mreže koja se sastoji od kondenzatora i feritne perle. Na svim komunikacijskim linijama se nalaze pritezni otpornici, a linija za takt ima terminacijski otpor od 49,9 $\Omega$ kako bi se suzbila refleksija. Kako CD stezaljka za detekciju spojene kartice ne bi ostala plutajuća dodan je pritezni otpornik od 1 M$\Omega$. Razlog odabira tako velikog otpora je unutarnji pritezni otpornik prema napajanju na SD karticama pa se velikim otporom suzbija efekt naponskog djelila.
 \begin{figure}[h!bt]
     \centering
     \includegraphics[width=\textwidth]{Figures/SD.png}
@@ -114,13 +112,13 @@ Za mikrofon se koristi evaluacijska pločica STEVAL-MIC003V1 (slika \ref{slk:STE
 Kraj konektora su postavljene testne točke za promatranje signala preko logičkog analizatora u slučaju da postoje poteškoće tijekom programiranja ili rada.
 
 \section{Napajanje}
-Sada kada su odabrane sve potrebne komponente za funkcionalnost sustava, moguće je projektirati prikladno napajanje. Prvo je potrebno proračunati potrošnju sustava, a potom odabrati komponente napajanja koje su u stanju zadovoljiti traženu potrošnju sustava na što efikasniji način.
+Nakon što su odabrane sve potrebne komponente za postizanje pune funkcionalnosti sustava, moglo se projektirati i prikladno napajanje. Prvo je bilo potrebno proračunati potrošnju sustava, a potom odabrati komponente napajanja koje mogu zadovoljiti traženu potrošnju sustava na što efikasniji način.
 
 \subsection{Proračun potrošnje}
-Napravljena je tablica potrošnje za sustave koji se napajaju sa 3.3 V (tablica \ref{tab:MB3V3}). Za maksimalne i minimalne vrijednosti potrošnje uzeti su podaci iz dokumentacije komponenata, a prosječna potrošnja je uzeta odokativno jer je nemoguće znati prosječnu potrošnju bez mjerenja.
+Napravljena je tablica potrošnje za sustave koji se napajaju s 3,3 V (tablica \ref{tab:MB3V3}). Za maksimalne i minimalne vrijednosti potrošnje uzeti su podaci iz dokumentacije komponenata, a prosječna potrošnja procjenjena je približno jer je nemoguće znati prosječnu potrošnju bez mjerenja u stvarnim uvjetima rada.
 \begin{table}[htbp]
     \centering
-    \caption{Potrošnja struje za sustave koji se napajaju sa 3.3 V}
+    \caption{Potrošnja struje za sustave koji se napajaju sa 3,3 V}
     \begin{tabular}{lccc} \hline
            & Min. [mA] & Avg. [mA] & Max. [mA] \\
       MCU  & 0,00 & 60,00 & 320,00 \\
@@ -132,10 +130,10 @@ Napravljena je tablica potrošnje za sustave koji se napajaju sa 3.3 V (tablica 
     \end{tabular}%
     \label{tab:MB3V3}%
 \end{table}%
-Na temelju ovih podataka se može odrediti za koliku snagu napajanje mora biti projektirano. Maksimalna struja je manja od 1 A, a uređaj nikada neće dostići toliku razinu potrošnje jer se neće koristiti sve mogućnosti največih potrošača (mikrokontroler i bežična komunikacija). S obzirom na to da korisnik neće cijelo vrijeme pričati sustav će ući u mirovanje, a prosječna struja će onda biti još manja. Imajući na umu sve navedeno, procjenjuje se da će baterija od kapaciteta 2 Ah biti više nego dovoljna. Sada je moguće odabrati prikladne komponente za napajanje.
+Na temelju ovih podataka se može odrediti za koliku snagu napajanje mora biti projektirano. Maksimalna struja je manja od 1 A, a uređaj nikada neće dostići toliku razinu potrošnje jer se neće koristiti sve mogućnosti najvećih potrošača (mikrokontroler i bežična komunikacija). S obzirom na to da korisnik neće cijelo vrijeme pričati sustav će ući u mirovanje, a prosječna struja će onda biti još manja. Imajući na umu sve navedeno, procjenjuje se da će baterija od kapaciteta 2 Ah biti dovoljna. Tek nakon ove analize mogle su biti odabrane sve prikladne komponente za napajanje.
 
 \subsection{Baterija i punjač baterije}
-Za punjač baterije odabran je BQ24166 proizvođača Texas Instruments (slika \ref{slk:BQ24166}). Ovaj integrirani krug u sebi ima integriran sustav za upravljanje tokom snage \cite{ti:bq24166}. BQ24166 se može napajati s dva ulaza; ulaz za USB ili ulaz za druge vrste napajanja (AC/DC adapter, DC laboratorijski izvor napajanja, itd.), a da pritom u isto vrijeme puni bateriju i na svom izlazu daje napon baterije, s tim da izlazni napon neće pasti ispod 3.5 V. U tu svrhu u čip je ugrađen silazni prekidački regulator napona, kako bi se kod punjenja baterije konstantnim naponom dobio izlazni napon od 4.2 V potreban za punjenje. Ako na ulaz čipa nije spojeno ništa, onda se na izlaz direktno prosljeđuje napon baterije. U slučaju da napon baterije padne ispod 3.5 V, a da pritom ništa nije spojeno na ulaz čipa, izlazni napon se regulira na 3.5 V, čime se baterija može u potpunosti iskoristiti. Ovaj čip također ima ugrađene zaštite od prenapona, a jednim otpornikom moguće je i programirati prekostrujnu zaštitu. Također je jednim otpornikom moguće i programirati maksimalnu struju punjenja baterije.
+Za punjač baterije odabran je BQ24166 proizvođača Texas Instruments (slika \ref{slk:BQ24166}). Ovaj integrirani sklop u sebi ima integriran sustav za upravljanje tokom snage \cite{ti:bq24166}. BQ24166 se može napajati s dva ulaza, ulaza za USB ili ulaza za druge vrste napajanja (AC/DC adapter, DC laboratorijski izvor napajanja, itd.), a da pritom u isto vrijeme puni bateriju i na svom izlazu daje napon baterije, s tim da izlazni napon neće pasti ispod 3,5 V. U tu svrhu u integrirani sklop je ugrađen silazni prekidački regulator napona, kako bi se kod punjenja baterije konstantnim naponom dobio izlazni napon od 4,2 V potreban za punjenje. Ako na ulaz integriranog sklopa nije spojeno ništa, onda se na izlaz izravno prosljeđuje napon baterije. U slučaju da napon baterije padne ispod 3,5 V, a da pritom ništa nije spojeno na ulaz čipa, izlazni napon se regulira na 3,5 V, čime se baterija može u potpunosti iskoristiti. Ovaj čip također ima ugrađene zaštite od prenapona, a jednim otpornikom moguće je i programirati prekostrujnu zaštitu. Također je jednim otpornikom moguće i programirati maksimalnu struju punjenja baterije.
 \begin{figure}[!hbt]
     \centering
     \includegraphics[width = 6 cm]{Figures/bq24166.png}
@@ -143,28 +141,28 @@ Za punjač baterije odabran je BQ24166 proizvođača Texas Instruments (slika \r
     \label{slk:BQ24166}
 \end{figure}
 
-Shema baterijskog punjača prikazana je na slici \ref{slk:MB_BATCHG}. Blokadni kondenzatori su postavljeni prema uputama proizvođača, a potrebno je bilo odabrati odgovarajuće otpornike za programiranje prekostrujne zaštite i maksimalne struje punjenja, kao i prikladnu zavojnicu. Kako bi se navedene komponente odabrale na odgovarajuć način, potrebno je znati izlaznu struju iz punjača.
+Shema baterijskog punjača prikazana je na slici \ref{slk:MB_BATCHG}. Blokadni kondenzatori su postavljeni prema uputama proizvođača, a potrebno je bilo odabrati odgovarajuće otpornike za programiranje prekostrujne zaštite i maksimalne struje punjenja, kao i prikladnu zavojnicu. Kako bi se navedene komponente odabrale na odgovarajući način, potrebno je znati izlaznu struju iz punjača.
 
-Na izlazu punjača se nalazi linearni regulator napona s niskim padom napona (190 mV na struji od 1.5 A) koji regulira napon na 3.3 V (slika \ref{slk:MB_LDO}). Imajući na umu da je ulazna struja linearnog regulatora otprilike ista kao i izlazna struja, dobiva se izlazna struja baterijskog punjača, što odgavara proračunu iz tablice \ref{tab:MB3V3}, a to je ujedno i struja koju daje baterija. Proizvođač preporuča zavojnice vrijednosti 2.2 $\mu$H za slučaj manje valovitosti struje i manjeg ograničenja na prostor, i 1.5 $\mu$H u slučaju manjeg ograničenja na valovitost i većeg ograničenja na prostor. Ovdje je odabrana vrijednost od 2.2 $\mu$H, a zavojnica je odabrana tako da su struje zasićenja zavojnice i maksimalna struja koju zavojnica može podnijeti veće od dvostruke izlazne struje, što je slučaj najveće valovitosti.
+Na izlazu punjača se nalazi linearni regulator napona s niskim padom napona (190 mV na struji od 1,5 A) koji regulira napon na 3,3 V (slika \ref{slk:MB_LDO}). Imajući na umu da je ulazna struja linearnog regulatora otprilike ista kao i izlazna struja, dobiva se izlazna struja baterijskog punjača, što odgavara proračunu iz tablice \ref{tab:MB3V3}, a to je ujedno i struja koju daje baterija. Proizvođač preporuča zavojnice vrijednosti 2,2 $\mu$H za slučaj manje valovitosti struje i manjeg ograničenja na prostor i 1,5 $\mu$H u slučaju manjeg ograničenja na valovitost i većeg ograničenja na prostor. Ovdje je odabrana vrijednost od 2,2 $\mu$H, a zavojnica je odabrana tako da su struje zasićenja zavojnice i maksimalna struja koju zavojnica može podnijeti veće od dvostruke izlazne struje, što je slučaj najveće valovitosti.
 \begin{table}[!htb]
     \centering
     \caption{Ograničenja struje USB-a \cite{ti:bq24166}}
     \begin{tabular}{|c|c|c|c|c|} \hline
     IUSB3 & IUSB2 & IUSB1 & Ograničenje ulazne struje & Minimalni napon \\
     \hline
-    0 & 0 & 0 & 100 mA & 4.28 V \\
+    0 & 0 & 0 & 100 mA & 4,28 V \\
     \hline
-    0 & 0 & 1 & 500 mA & 4.44 V \\
+    0 & 0 & 1 & 500 mA & 4,44 V \\
     \hline
-    0 & 1 & 0 & 1.5 A & 4.44 V \\
+    0 & 1 & 0 & 1,5 A & 4,44 V \\
     \hline
     0 & 1 & 1 & Visoka impedancija & Nikakav \\
     \hline
-    1 & 0 & 0 & 150 mA & 4.28 V \\
+    1 & 0 & 0 & 150 mA & 4,28 V \\
     \hline
-    1 & 0 & 1 & 900 mA & 4.44 V \\
+    1 & 0 & 1 & 900 mA & 4,44 V \\
     \hline
-    1 & 1 & 0 & 800 mA & 4.44 V \\
+    1 & 1 & 0 & 800 mA & 4,44 V \\
     \hline
     1 & 1 & 1 & Visoka impedancija & Nikakav \\
     \hline
@@ -172,7 +170,7 @@ Na izlazu punjača se nalazi linearni regulator napona s niskim padom napona (19
     \label{tab:USB_ILIM}%
 \end{table}%
 
-Radi potreba testiranja dodani su pritezni otpornici na stezaljkama USB1, USB2 i USB3. Ovisno o logičkim razinama na tim stezaljkama moguće je ograničiti struju na ulazu za USB. Razne konfiguracije ograničenja struje prikazane su u tablici \ref{tab:USB_ILIM}. Uobičajeno ograničenje u ovom slučaju je 1.5 A.
+Radi potreba testiranja dodani su pritezni otpornici na stezaljkama USB1, USB2 i USB3. Ovisno o logičkim razinama na tim stezaljkama moguće je ograničiti struju na ulazu za USB. Razne konfiguracije ograničenja struje prikazane su u tablici \ref{tab:USB_ILIM}. Uobičajeno ograničenje u ovom slučaju je 1,5 A.
 \begin{figure}[!htb]
     \centering
     \includegraphics[width = \textwidth]{Figures/MB_BATCHG.png}
@@ -187,7 +185,7 @@ Da bi se dobila maksimalna ulazna struja punjača potrebno je uzeti u obzir najg
 \begin{equation} \label{eq:BUCK}
     U_{IZ}\cdot I_{IZ}=\eta \cdot U_{UL} \cdot I_{UL}
 \end{equation}
-gdje je \textit{U\textsubscript{IZ}} i \textit{I\textsubscript{IZ}} izlazni napon, odnosno struja, \textit{U\textsubscript{UL}} i \textit{I\textsubscript{UL}}, ulazni napon, odnosno struja, a $\eta$ učinkovitost. Bacajući pogled u dokumentaciju proizvođača, može se uzeti efikasnost od 90 \% (slika \ref{slk:EFFICIENCY}).
+gdje je \textit{U\textsubscript{IZ}} i \textit{I\textsubscript{IZ}} izlazni napon, odnosno struja, \textit{U\textsubscript{UL}} i \textit{I\textsubscript{UL}}, ulazni napon, odnosno struja, a $\eta$ učinkovitost. Provjerom dokumentacije proizvođača, može se uzeti efikasnost od 90 \% (slika \ref{slk:EFFICIENCY}).
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Figures/EFFICIENCY.PNG}
@@ -198,7 +196,7 @@ gdje je \textit{U\textsubscript{IZ}} i \textit{I\textsubscript{IZ}} izlazni napo
 \begin{equation} \label{eq:IN_CURR}
     I_{UL}=\frac{\eta \cdot U_{IZ} \cdot I_{IZ}}{U_{UL}}
 \end{equation}
-Iz jednadžbe \ref{eq:IN_CURR} je vidljivo da će ulazna struja biti najveća kada je ulazni napon što manji, što u ovom slučaju iznosi 5 V. Za izlazni napon se također uzima najgori slučaj od 4.2 V. Sada se za maksimalnu ulaznu struju punjača uz odspojenu bateriju dobiva iznos od ${I_{UL,BATOFF} = 627.48\textrm{ mA}}$.
+Iz jednadžbe \ref{eq:IN_CURR} je vidljivo da će ulazna struja biti najveća kada je ulazni napon što manji, što u ovom slučaju iznosi 5 V. Za izlazni napon se također uzima najgori slučaj od 4,2 V. Sada se za maksimalnu ulaznu struju punjača uz odspojenu bateriju dobiva iznos od ${I_{UL,BATOFF} = 627,48\textrm{ mA}}$.
 \begin{figure}[H]
     \centering
     \includegraphics[width = 10 cm]{Figures/MB_LDO.png}
@@ -206,15 +204,15 @@ Iz jednadžbe \ref{eq:IN_CURR} je vidljivo da će ulazna struja biti najveća ka
     \label{slk:MB_LDO}
 \end{figure}
 
-Imajući na umu da će do maksimalne potrošnje doći rijetko, ako uopće, i činjenicu da će sustav imati mogućnost ulaska u način rada mirovanja, može se uzeti kapacitet baterije od 2 Ah, čime se postiže balans trajanja baterije i cijene. U tom slučaju dovoljno je ograničiti punjenje baterije na 1 A, a izračun otpornika je vidljiv na shemi (slika \ref{slk:MB_BATCHG}). Odgovarajuće konstante za izračun otpornika su dobivene iz dokumentacije proizvođača. Sada je isto pomoću jednadžbe \ref{eq:IN_CURR} moguće izračunati ulazni struju; ${I_{UL,BATCHG} = 756\textrm{ mA}}$. Ukupna maksimalna ulazna struja je stoga:
+Imajući na umu da će do maksimalne potrošnje doći rijetko, ako uopće, i činjenicu da će sustav imati mogućnost ulaska u način rada mirovanja, može se uzeti kapacitet baterije od 2 Ah, čime se postiže balans trajanja baterije i cijene. U tom slučaju dovoljno je ograničiti punjenje baterije na 1 A, a izračun otpornika je vidljiv na shemi (slika \ref{slk:MB_BATCHG}). Odgovarajuće konstante za izračun otpornika su dobivene iz dokumentacije proizvođača. Sada je isto pomoću jednadžbe \ref{eq:IN_CURR} moguće izračunati ulaznu struju; ${I_{UL,BATCHG} = 756\textrm{ mA}}$. Ukupna maksimalna ulazna struja je stoga:
 \begin{equation}
     I_{UL,MAX}=I_{UL,BATCHG}+I_{UL,BATOFF} = 1.38\textrm{ A}
     \label{eq:IN_CURR_MAX}
 \end{equation}
-Dodajući malo sigurnosne margine, za prekostrujnu zaštitu se onda uzima 1.5 A. Za potrebe testiranja i otklanjanje evenutalnih grešaka na ulaz linearnog regulatora dodan je kratkospojnik.
+Uz dodatak sigurnosne zalihosti, za prekostrujnu zaštitu se onda uzima 1,5 A. Za potrebe testiranja i otklanjanje evenutalnih grešaka na ulaz linearnog regulatora dodan je kratkospojnik.
 
 \subsection{Baterijska zaštita}
-S obzirom na mnoge opasnosti koje litij-ionske baterije nude, potrebno je dizajnirati prikladnu zaštitu za bateriju. U tu svrhu odabran je BQ29700 proizvođača Texas Instruments, prikazan na slici \ref{slk:BQ29700}. Ovaj integrirani krug ima zaštitu baterije od preniskog i previsokog napona, prejake struje pražnjenja i punjenja i kratkog spoja. Shema sklopa za zaštitu baterije prikazana je na slici \ref{slk:MB_BATPROT}.
+S obzirom na mnoge opasnosti vezane uz korištenje litij-ionskih baterija, potrebno je dizajnirati prikladnu zaštitu za bateriju. U tu svrhu odabran je BQ29700 proizvođača Texas Instruments, prikazan na slici \ref{slk:BQ29700}. Ovaj integrirani sklop ima zaštitu baterije od preniskog i previsokog napona, prejake struje pražnjenja i punjenja te kratkog spoja. Shema sklopa za zaštitu baterije prikazana je na slici \ref{slk:MB_BATPROT}.
 \begin{figure}[hbt]
     \centering
     \includegraphics[width=10 cm]{Figures/BQ29700.png}
@@ -234,9 +232,9 @@ Otpornici i kondenzatori su odabrani prema preporukama proizvođača, dok se tra
     \caption{Pragovi aktiviranja zaštite za bateriju \cite{ti:bq29700}}
     \begin{tabular}{|l|p{1.5cm}|p{1.5cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|} \hline
     \raggedright
-    & Prevelik napon & Premali napon & Prejaka struja punjenja & Prejaka struja pražnjenja & Struja kratkog spoja \\
+    & Previsok napon & Prenizak napon & Previsoka struja punjenja & Previsoka struja pražnjenja & Struja kratkog spoja \\
     \hline
-    Prag [V] & 4.275 & 2.800 & -0.100 & 0.100 & 0.5 \\
+    Prag [V] & 4,275 & 2,800 & -0,100 & 0,100 & 0,5 \\
     \hline
     \end{tabular}%
     \label{tab:BQ29700}%
@@ -245,7 +243,7 @@ U tablici \ref{tab:BQ29700} navedeni su pragovi napona na kojima se aktivira za�
 \begin{equation} \label{eq:TRANCUR}
     I_Q = \frac{U_{TH}}{2\cdot R_{DS(on)}}
 \end{equation}
-gdje je \textit{U\textsubscript{TH}} napon praga, a \textit{R\textsubscript{DS(on)}} otpor jednog tranzistora. U dokumentaciji proizvođača navodi se da tranzistor mora podržavati napon između upravljače elektrode i uvoda u iznosu od $U_{GS}=3.5\textrm{ V}$. Iz grafa ovisnosti \textit{R\textsubscript{DS(on)}} o \textit{U\textsubscript{GS}} prikazanog na slici može se isčitati vrijednost otpora od $R_{DS(on)}=12.5\textrm{ m}\Omega$.
+gdje je \textit{U\textsubscript{TH}} napon praga, a \textit{R\textsubscript{DS(on)}} otpor jednog tranzistora. U dokumentaciji proizvođača navodi se da tranzistor mora podržavati napon između upravljače elektrode i uvoda u iznosu od $U_{GS}=3,5\textrm{ V}$. Iz grafa ovisnosti \textit{R\textsubscript{DS(on)}} o \textit{U\textsubscript{GS}} prikazanog na slici može se isčitati vrijednost otpora od $R_{DS(on)}=12,5\textrm{ m}\Omega$.
 \begin{figure}[hbt]
     \centering
     \includegraphics[width=10 cm]{Figures/RDS_OLD.PNG}
@@ -254,11 +252,11 @@ gdje je \textit{U\textsubscript{TH}} napon praga, a \textit{R\textsubscript{DS(o
 \end{figure}
 Zaštita baterije će se aktivirati u sljedećim uvjetima:
 \begin{itemize}
-    \item prevelika struja punjenja $I_{OCC}=4\textrm{ A}$,
-    \item prevelika struja pražnjenja $I_{OCD}=4\textrm{ A}$,
+    \item previsoka struja punjenja $I_{OCC}=4\textrm{ A}$,
+    \item previsoka struja pražnjenja $I_{OCD}=4\textrm{ A}$,
     \item struja kratkog spoja $I_{SCD}=20\textrm{ A}$.
 \end{itemize}
-Ovo je dizajn napravljen po uzoru na dokumentaciju proizvođača, međutim, očito je da je ovaj tranzistor loš odabir za ovaj slučaj. Pragovi struja na kojima će se zaštita aktivirati je prevelika, i može doći do oštećenja sklopovlja ili baterije pođe li nešto po zlu. Ispravan način proračuna i odabira tranzistora bit će demonstriran u poglavlju vezanom uz izradu narukvice.
+Ovo je dizajn napravljen po uzoru na dokumentaciju proizvođača, međutim, očito je da je ovaj tranzistor loš odabir za ovaj slučaj. Pragovi struja na kojima će se zaštita aktivirati su previsoki i može doći do oštećenja sklopovlja ili baterije dogodi li se situacija kada zaštita mora proraditi. Ispravan način proračuna i odabira tranzistora bit će demonstriran u poglavlju vezanom uz izradu narukvice.
 
 \section{USB napajanje}
 
