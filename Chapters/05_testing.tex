@@ -1,7 +1,7 @@
 \chapter{Ispitivanje razvijenog sklopovskog rješenja}
 U postupku provjere realiziranog rješenja ispitani su sustavi za napajanje, žična komunikacija između dijelova sustava, bežična komunikacija, upisivanje korisničkog programa u Flash memoriju mikrokontrolera, snimanje zvuka, pohrana podataka na SD karticu, RTC, komunikacija s PPG senzorom i mjerenje impedancije kože.
 
-U svim testovima korišten je multimetar za mjerenje napona i osciloskop za promatranje signala u komunikacijama između sustava. Za ispitivanje napajanja korišteni su USB strujni adapter koji podržava mogućnost brzog punjenja, različite litij-ionske baterije u 18650 kućištu i USB ispitivač UT658DUAL tvrtke Changan UNI-T, prikazan na slici \ref{slk:UT658DUAL}. Ovaj uređaj se može spojiti između USB izvora i uređaja te pokazuje razinu napona, jakost struje koju izvor daje, količinu potrošenog naboja u mAh i vrijeme trajanja mjerenja.
+U svim testovima korišten je multimetar za mjerenje napona i osciloskop za promatranje signala u žičnim komunikacijama između sustava. Za ispitivanje napajanja korišteni su USB strujni adapter koji podržava mogućnost brzog punjenja, različite litij-ionske baterije u 18650 kućištu i USB ispitivač UT658DUAL tvrtke Changan UNI-T, prikazan na slici \ref{slk:UT658DUAL}. Ovaj uređaj se može spojiti između USB izvora i uređaja te pokazuje razinu napona, jakost struje koju izvor daje, količinu potrošenog naboja u mAh i vrijeme trajanja mjerenja.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=6 cm]{Figures/UT658DUAL.png}
@@ -23,7 +23,7 @@ Na slikama \ref{slk:MB_TEST_01} i \ref{slk:MB_TEST_02} prikazano je ispitivanje 
     \label{slk:MB_TEST_02}
 \end{figure}
 
-U postupku ispitivanja otkrivena je pogreška u dizajnu USB napajanja. Naime, kada se spoji USB izvor napajanja, bez obzira podržava li izvor zatraženu snagu ili ne, napajanje s USB-a se ne prosljeđuje prema ostatku sustava. Ustanovljeno je da je problem u tranzistorskoj sklopci (slika \ref{slk:MB_USB}). Naime, kada integrirani sklop pokuša uključiti tranzistore, na prvom tranzistoru dolazi do pada napona na diodi koja se nalazi unutar tranzistora pa se na uvodu drugog tranzistora nalazi napon napajanja umanjen za napon provoda diode (između 0.5 V i 1.2 V \cite{di:dmp3098}). Integrirani sklop je preko VDC\_OUT stezaljke detektirao previsok pad napona i onemogućio napajanje s USB-a. Radi toga su napravljene izmjene u USB napajanju kod narukvice, koje su vidljive na slici \ref{slk:BR_USB}.
+U postupku ispitivanja otkrivena je pogreška u dizajnu USB napajanja. Naime, kada se spoji USB izvor napajanja, bez obzira podržava li izvor zatraženu snagu ili ne, napajanje s USB-a se ne prosljeđuje prema ostatku sustava. Ustanovljeno je da je problem u tranzistorskoj sklopci (slika \ref{slk:MB_USB}). Naime, kada integrirani sklop pokuša uključiti tranzistore, na prvom tranzistoru dolazi do pada napona na diodi koja se nalazi unutar tranzistora pa se na uvodu drugog tranzistora nalazi napon napajanja umanjen za napon provoda diode (između 0.5 V i 1.2 V \cite{di:dmp3098}). Integrirani sklop je preko VDC\_OUT priključka detektirao previsok pad napona i onemogućio napajanje s USB-a. Radi toga su napravljene izmjene u USB napajanju kod narukvice, koje su vidljive na slici \ref{slk:BR_USB}.
 
 Kada baterija nije bila spojena, nije bilo moguće uključiti USB napajanje iz razloga objašnjenog u potpoglavlju \ref{sec:BR_USB}. Ukratko, integrirani sklop nije mogao postaviti odgovarajuće otpornike na CC linije pa se nije mogla zatražiti nikakva snaga od USB izvora.
 

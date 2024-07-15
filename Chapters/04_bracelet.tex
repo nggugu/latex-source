@@ -5,7 +5,7 @@ Svrha narukvice je prikupljanje fizioloških signala korisnika i njihovo slanje 
 Što se tiče zahtjeva na napajanje narukvice, zahtjevi su slični kao i kod središnjeg uređaja, uz nižu potrošnju. Prilikom projektiranja narukvice iskorišteno je iskustvo stečeno projektiranjem i ispitivanjem pločice središnjeg uređaja tako da su u dizajnu narukvice popravljeni nedostaci inicijalnog dizajna vezanog uz napajanje kako je implementirano na pločici središnjeg uređaja. S obzirom na ograničenje na veličinu pločice za narukvicu, za razliku od implementacije središnjeg uređaja, ovdje nisu postavljeni dodatni kratkospojnici i ispitne točke za lakše testiranje, s obzirom da je sličan dizajn već ranije ispitan tijekom uhodavanja središnjeg uređaja.
 
 \section{Bežična komunikacija}
-Za ostvarenje bežične komunikacije koristi se modul ESP32-C3-WROOM-02-N4, koji omogućuje komunikaciju putem Bluetooth i Wi-Fi protokola. Električna shema dijela za bežičnu komunikaciju na narukvici (slika \ref{slk:BR_WIRELESS}) slična je implementaciji na pločici središnjeg uređaja (slika \ref{slk:WIFI}), uz razliku da ovdje nema kratkospojnika, uz dodatak signala za upravljanje I\textsubscript{2}C sučeljem i korištenje analogno-digitalnog pretvornika za mjerenje impedancije kože. Postoji još i promjena u odnosu na implementaciju na središnjem uređaju, a odnosi se na programiranje putem UART-a. S obzirom na uočene probleme u programiranju pločice središnjeg uređaja, dodani su signali DTR i CTS kako bi se BOOT i EN stezaljke ESP mikrokontrolera mogle programski upravljati.
+Za ostvarenje bežične komunikacije koristi se modul ESP32-C3-WROOM-02, koji omogućuje komunikaciju putem Bluetooth i Wi-Fi protokola. Električna shema dijela za bežičnu komunikaciju na narukvici (slika \ref{slk:BR_WIRELESS}) slična je implementaciji na pločici središnjeg uređaja (slika \ref{slk:WIFI}), uz razliku da ovdje nema kratkospojnika, uz dodatak signala za upravljanje I\textsubscript{2}C sučeljem i korištenje analogno-digitalnog pretvornika za mjerenje impedancije kože. Postoji još i promjena u odnosu na implementaciju na središnjem uređaju, a odnosi se na programiranje putem UART-a. S obzirom na uočene probleme u programiranju pločice središnjeg uređaja, dodani su signali DTR i CTS kako bi se BOOT i EN priključci ESP mikrokontrolera mogli programski upravljati.
 \begin{sidewaysfigure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{Figures/BR_WIRELESS.png}
@@ -38,7 +38,7 @@ Impedancija kože mjeri se pomoću instrumentacijskog pojačala. Električna she
     \caption{Električna shema mjernog kruga za impedanciju kože}
     \label{slk:EDR}
 \end{figure}
-Za mjerenje impedancije koristi se referentni napon od 0,5 V, a postupak mjerenja temelji se na mjerenju napona na naponskom djelilu na stezaljci -IN pojačala. Koža predstavlja donji otpornik u naponskom djelilu te se razlika između tog napona i referentnog napona pojačava:
+Za mjerenje impedancije koristi se referentni napon od 0,5 V, a postupak mjerenja temelji se na mjerenju napona na naponskom djelilu na priključku -IN pojačala. Koža predstavlja donji otpornik u naponskom djelilu te se razlika između tog napona i referentnog napona pojačava:
 \begin{equation} \label{eq:EDR}
     U_{IZ}=A\cdot U_{REF}\cdot \frac{R_{403}}{R_{403}+R_{skin}}
 \end{equation}
@@ -93,7 +93,7 @@ Za napajanje od 5 V bilo je potrebno dizajnirati uzlazni prekidački regulator. 
     \caption{Uzlazni prekidački regulator}
     \label{slk:BR_BOOST}
 \end{figure}
-Zavojnica je odabrana prema preporukama proizvođača, a naponsko djelilo je proračunato imajući na umu da donji otpornik ne bi trebao biti veći od $500\textrm{ k}\Omega$ kako bi vrijednost struje koja teče u FB stezaljku bila što bliže 0,01 $\mu\textrm{A}$ \cite{ti:tlv61220}. Efikasnost za izlazne struje od 1 mA do 50 mA je gotovo ista na ulaznom naponu u rasponu baterije i može se uzeti efikasnost od 90 \% (\ref{slk:BOOST_EFF}). Uz minimalni ulazni napon od 3 V, potrošnja, prema jednadžbi \ref{eq:IN_CURR} iznosi 75 mA.
+Zavojnica je odabrana prema preporukama proizvođača, a naponsko djelilo je proračunato imajući na umu da donji otpornik ne bi trebao biti veći od $500\textrm{ k}\Omega$ kako bi vrijednost struje koja teče u FB priključak bila što bliže 0,01 $\mu\textrm{A}$ \cite{ti:tlv61220}. Efikasnost za izlazne struje od 1 mA do 50 mA je gotovo ista na ulaznom naponu u rasponu baterije i može se uzeti efikasnost od 90 \% (\ref{slk:BOOST_EFF}). Uz minimalni ulazni napon od 3 V, potrošnja, prema jednadžbi \ref{eq:IN_CURR} iznosi 75 mA.
 \begin{figure}[H]
     \centering
     \includegraphics[width=6 cm]{Figures/BOOST_EFF.png}
@@ -116,7 +116,7 @@ Električna shema punjača narukvice na slici \ref{slk:BR_BATCHG} slična je ele
 
 Još jedna razlika u odnosu na izvedbu na središnjem uređaju je u priteznim otpornicima na konfiguracijskim linijama za ograničenje struje USB-a, pri čemu je u slučaju ove pločice ograničenje postavljeno na 1,5 A zato jer nema potrebe za drugačijim postavkama i jer postoji ograničenje na veličinu pločice. S obzirom na ograničenje na dimenzije pločice, ovdje je odabrana zavojnica od 1,5 $\mu \textrm{H}$.
 
-Posljednja razlika u odnosu na dizajn na središnjem uređaju je suptilna, ali ključna za ispravan rad punjača. Pogledom na električnu shemu na slici \ref{slk:MB_BATCHG} vidljivo je da stezaljka TS nije nigdje spojena, odnosno da se nalazi na plutajućem potencijalu. Ova stezaljka služi za mjerenje temperature baterije tijekom punjenja. Ako je temperatura prevelika ili premala, punjenje se zaustavlja. Električna shema mjerenja prikazana je na slici \ref{slk:BATCHG_TS}. Mjeri se napon na naponskom djelilu kojega čine otpornici i NTC termistor. Naponi na kojima se zaštita aktivira iznose 30\% i 60\% napona na stezaljci DRV, dakle 1,56 V i 3,12 V. S obzirom da je stezaljka TS plutajuća, napon na stezaljci je manji od donjega praga i punjenje ne radi. Kako bi se mjerenje temperature onemogućilo, napon na TS stezaljci mora biti veći od 70\% napona na stezaljci DRV. Iz tog razloga proizvođač preporučuje kratko spajanje stezaljki TS i DRV kako bi punjenje cijelo vrijeme bilo omogućeno.
+Posljednja razlika u odnosu na dizajn na središnjem uređaju je suptilna, ali ključna za ispravan rad punjača. Pogledom na električnu shemu na slici \ref{slk:MB_BATCHG} vidljivo je da priključak TS nije nigdje spojena, odnosno da se nalazi na plutajućem potencijalu. Ovaj priključak služi za mjerenje temperature baterije tijekom punjenja. Ako je temperatura prevelika ili premala, punjenje se zaustavlja. Električna shema mjerenja prikazana je na slici \ref{slk:BATCHG_TS}. Mjeri se napon na naponskom djelilu kojega čine otpornici i NTC termistor montiran na bateriju. Naponi na kojima se zaštita aktivira iznose 30\% i 60\% napona na priključku DRV, dakle 1,56 V i 3,12 V. S obzirom da je priključak TS plutajuć, napon na priključku je manji od donjega praga i punjenje ne radi. Kako bi se mjerenje temperature onemogućilo, napon na TS priključku mora biti veći od 70\% napona na priključku DRV. Iz tog razloga proizvođač preporučuje kratko spajanje priključaka TS i DRV kako bi punjenje cijelo vrijeme bilo omogućeno.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=10 cm]{Figures/BATCHG_TS.png}
@@ -145,14 +145,15 @@ Ovdje su još dodani i otpori između upravljačke elektrode i uvoda tranzistora
 \section{USB napajanje}
 \label{sec:BR_USB}
 Električna shema USB napajanja narukvice prikazana je na slici \ref{slk:BR_USB}. Dodan je pritezni otpornik R102 koji osigurava da ne dolazi do smanjenja napona na uvodu tranzistora Q101B radi diode u tranzistoru Q101A. Dodana je i Zener dioda od 10 V koja služi za zaštitu od prevelikog napona.
-
-Osim toga, naponska djelila koja služe za podešavanje struje i napona USB-a se sada napajaju s internog regulatora čipa. Kod središnjeg uređaja (slika \ref{slk:MB_USB}) su se napajala s regulatora od 3,3 V koji se nalazi na pločici, što je u redu dokle god je priključena puna baterija. Međutim, u slučaju prazne ili isključene baterije dolazi do problema, jer je sada sustav ostao bez napajanja i ne mogu se podesiti naponi i struje USB-a. Ova uočena pogreška ispravljena je na opisani način, što je ujedno i preporuka proizvođača.
-\begin{figure}[htb]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{Figures/BR_USB.png}
     \caption{USB napajanje na narukvici}
     \label{slk:BR_USB}
 \end{figure}
+
+Osim toga, naponska djelila koja služe za podešavanje struje i napona USB-a se sada napajaju s internog regulatora integriranog sklopa. Kod središnjeg uređaja (slika \ref{slk:MB_USB}) su se napajala s regulatora od 3,3 V koji se nalazi na pločici, što je u redu dokle god je priključena puna baterija. Međutim, u slučaju prazne ili isključene baterije dolazi do problema, jer je sada sustav ostao bez napajanja i ne mogu se podesiti naponi i struje USB-a. Ova uočena pogreška ispravljena je na opisani način, što je ujedno i preporuka proizvođača.
+
 \section{Opis tiskane pločice}
 Tijekom projektiranja tiskane pločice, osim što je bilo potrebno paziti na iste probleme kao i kod pločice središnjeg uređaja, bilo je potrebno voditi računa i na ograničenje prostora te na dvostranu montažu komponenti. Na slikama \ref{slk:BR_PCB_TOP} i \ref{slk:BR_PCB_BOT} prikazan je 3D prikaz projektirane pločice.
 
