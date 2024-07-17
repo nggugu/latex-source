@@ -91,7 +91,7 @@
 
 % Sažetak na hrvatskom
 \begin{sazetak}
-Projektiranje i izrada sklopovlja za nosivi mjerni sustav za prepoznavanje i klasifikaciju poremećaja tečnosti govora. Sustav se sastoji od dva nosiva uređaja. Jedan je za snimanje glasovnih podataka s MEMS mikrofonom, obradu podataka i njihovu pohranu na SD karticu. Drugi je za snimanje biomedicinskih signala (PPG i EDR) u obliku nosive narukvice. Oba sustava imaju funkcije bežične komunikacije preko Wi-Fi ili Bluetooth sučelja, napajanje s litij-ionskom baterijom te napajanje i punjenje preko USB C sučelja. Opisani su dizajn sustava, projektiranje tiskane pločice i funkcionalno ispitivanje sastavljenih uređaja.
+U okviru rada projektirano je i izrađeno sklopovlje nosivog mjernog sustava za prepoznavanje i klasifikaciju poremećaja tečnosti govora. Sustav se sastoji od dva nosiva uređaja, središnje jedinice i narukvice. Središnja jedinica služi za snimanje zvuka, pohranu rezultata mjerenja, izvođenje algoritama strojnog učenja za prepoznavanje i klasifikaciju poremećaja tečnosti govora u stvarnom vremenu te komunikaciju s vanjskim sustavima. Sadrži mikrokontroler STM32F746VG, MEMS mikrofon, SD karticu i sat realnog vremena. Narukvica služi za mjerenje srčanog ritma korištenjem fotopletizmografskog (PPG) senzora MAX30101 i mjerenje impedancije kože (tj.~elektrodermalnog odziva, EDR). Oba uređaja imaju podsustav za napajanje i punjenje litij-ionske baterije putem USB-C priključka te podsustav za Wi-Fi i Bluetooth komunikaciju temeljen na ESP32-C3-WROOM-02 modulu. Izrađen je prototip sustava i eksperimentalnom verifikacijom utvrđena je ispravnost rada svih elemenata.
 \end{sazetak}
 
 \begin{kljucnerijeci}
@@ -101,7 +101,7 @@ MEMS mikrofon, SD kartica, PPG, EDR, Wi-Fi, Bluetooth, litij-ionska baterija, US
 
 % Abstract in English
 \begin{abstract}
-  Design and production of hardware for a wearable measurement system for the recognition and classification of speech fluency disorders. The system consists of two wearable devices. One is for recording voice data with a MEMS microphone, processing the data, and storing it on an SD card. The other is for recording biomedical signals (PPG and EDR) in the form of a wearable wristband. Both systems have wireless communication functions via Wi-Fi or Bluetooth interfaces, are powered by a lithium-ion battery, and can be powered and charged via a USB-C interface. The design of the system, the printed circuit board (PCB) design, and the functional testing of the assembled devices are described.
+In this thesis a wearable measurement system for detection and classification of speech fluency disorders was designed and built. The system consists of two wearable devices, a central unit and a bracelet. The central unit is used for sound recording, storage of measurement results, execution of machine learning algorithms for recognition and classification of speech fluency disorders in a real time, and communication with external systems. It contains an STM32F746VG microcontroller, a MEMS microphone, an SD card and a real-time clock. The bracelet is used to measure heart rate using the MAX30101 photoplethysmography (PPG) sensor and to measure skin impedance (i.e.~electrodermal response, EDR). Both devices have a subsystem for power supply and lithium-ion battery charging via a USB-C port, and a subsystem for Wi-Fi and Bluetooth communication based on the ESP32-C3-WROOM-02 module. A prototype of the system was built and the experimentally verified.
 \end{abstract}
 
 \begin{keywords}
